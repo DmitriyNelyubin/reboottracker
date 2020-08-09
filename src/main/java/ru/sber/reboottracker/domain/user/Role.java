@@ -1,9 +1,9 @@
-package ru.sber.reboottracker.domain;
+package ru.sber.reboottracker.domain.user;
 
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Role implements GrantedAuthority {
-    USER, ADMIN;
+    USER, ADMIN, MANAGER;
 
     @Override
     public String getAuthority() {

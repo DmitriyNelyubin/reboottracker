@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import ru.sber.reboottracker.domain.Message;
-import ru.sber.reboottracker.domain.User;
+import ru.sber.reboottracker.domain.user.User;
 import ru.sber.reboottracker.repos.MessageRepo;
 
 import javax.validation.Valid;

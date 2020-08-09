@@ -1,6 +1,8 @@
 package ru.sber.reboottracker.domain;
 
 import org.hibernate.validator.constraints.Length;
+import ru.sber.reboottracker.domain.user.User;
+
 import javax.validation.constraints.*;
 import javax.persistence.*;
 

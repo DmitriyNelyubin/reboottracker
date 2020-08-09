@@ -1,6 +1,6 @@
 package ru.sber.reboottracker.repos;
 
-import ru.sber.reboottracker.domain.User;
+import ru.sber.reboottracker.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepo extends JpaRepository<User, Long> {

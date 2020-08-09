@@ -11,14 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
-import ru.sber.reboottracker.domain.User;
+import ru.sber.reboottracker.domain.user.User;
 import ru.sber.reboottracker.domain.dto.CaptchaResponseDto;
 import ru.sber.reboottracker.service.UserService;
 
 import javax.validation.Valid;
 import java.util.Collections;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 public class RegistrationController {

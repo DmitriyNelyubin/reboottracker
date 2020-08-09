@@ -2,8 +2,8 @@ package ru.sber.reboottracker.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
-import ru.sber.reboottracker.domain.Role;
-import ru.sber.reboottracker.domain.User;
+import ru.sber.reboottracker.domain.user.Role;
+import ru.sber.reboottracker.domain.user.User;
 import ru.sber.reboottracker.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

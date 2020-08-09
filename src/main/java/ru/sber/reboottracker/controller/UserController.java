@@ -1,14 +1,13 @@
 package ru.sber.reboottracker.controller;
 
-import com.sun.jdi.event.StepEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.sber.reboottracker.domain.Role;
-import ru.sber.reboottracker.domain.User;
+import ru.sber.reboottracker.domain.user.Role;
+import ru.sber.reboottracker.domain.user.User;
 import ru.sber.reboottracker.service.UserService;
 
 import java.util.Map;
