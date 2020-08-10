@@ -5,4 +5,5 @@
     <div class="mb-1">Add new user</div>
     ${message?ifExists}
     <@l.login "/registration" true />
+    <div>After registration we will sanding validation link to confirm your email.</div>
 </@c.page>
