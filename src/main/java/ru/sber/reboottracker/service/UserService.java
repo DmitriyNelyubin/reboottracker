@@ -85,6 +85,10 @@ public class UserService implements UserDetailsService {
         return userRepo.findAll();
     }
 
+    public List<User> findByFindByRoles(Role role){
+        return userRepo.findByRoles(role);
+    }
+
     public void saveUser(User user, String username, Map<String, String> form) {
         user.setUsername(username);
         Set<String> roles = Arrays.stream(Role.values())

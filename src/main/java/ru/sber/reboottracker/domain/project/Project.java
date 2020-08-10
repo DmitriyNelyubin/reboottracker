@@ -4,6 +4,7 @@ import ru.sber.reboottracker.domain.user.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Entity
 @Table(name = "project")
@@ -23,6 +24,9 @@ public class Project {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User admin;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<User> developers;
+    private boolean active;
 
     public Project() {
     }
@@ -73,5 +77,21 @@ public class Project {
 
     public void setAdmin(User admin) {
         this.admin = admin;
+    }
+
+    public List<User> getDevelopers() {
+        return developers;
+    }
+
+    public void setDevelopers(List<User> developers) {
+        this.developers = developers;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
