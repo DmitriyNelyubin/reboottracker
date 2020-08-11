@@ -19,10 +19,8 @@ public class Project {
     @NotBlank(message = "Department can't be empty")
     private String department;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User manager;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User admin;
     @OneToMany(fetch = FetchType.EAGER)
     private List<User> developers;
@@ -31,10 +29,7 @@ public class Project {
     public Project() {
     }
 
-    public Project(
-            @NotBlank(message = "Project name can't be empty") String name,
-            @NotBlank(message = "Project description can't be empty") String description,
-            @NotBlank(message = "Department can't be empty") String department) {
+    public Project(String name, String description, String department) {
         this.name = name;
         this.description = description;
         this.department = department;
@@ -42,10 +37,6 @@ public class Project {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {

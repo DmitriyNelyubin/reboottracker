@@ -10,8 +10,4 @@ import java.util.List;
 public interface ProjectRepo extends CrudRepository<Project, Long> {
     List<Project> findAll();
     Project findByName(String name);
-    List<Project> findAllByDepartment(String depatrment);
-    List<Project> findAllByManager(User manager);
-    List<Project> findAllByAdmin(User admin);
-
 }

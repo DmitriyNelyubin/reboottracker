@@ -1,47 +1,64 @@
-//package ru.sber.reboottracker.controller;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.access.prepost.PreAuthorize;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import ru.sber.reboottracker.domain.project.Project;
-//import ru.sber.reboottracker.domain.user.Role;
-//import ru.sber.reboottracker.domain.user.User;
-//import ru.sber.reboottracker.repos.ProjectRepo;
-//import ru.sber.reboottracker.service.ProjectServise;
-//
-//@Controller
-//@RequestMapping("/project")
-//public class ProjectController {
-//    @Autowired
-//    private ProjectServise projectServise;
-//
-//    @Autowired
-//    private ProjectRepo projectRepo;
-//
-//    @PreAuthorize("hasAnyAuthority('ADMIN')")
-//    @GetMapping
-//    public String projectList(Model model){
-//        model.addAttribute("projects", projectServise.findAll());
-//        return "projectList";
-//    }
-//
-//    @PreAuthorize("hasAnyAuthority('ADMIN')")
-//    @GetMapping
-//    public String projectSave(@PathVariable Project project, Model model){
+package ru.sber.reboottracker.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import ru.sber.reboottracker.domain.project.Project;
+import ru.sber.reboottracker.domain.user.User;
+import ru.sber.reboottracker.service.ProjectService;
+import ru.sber.reboottracker.service.UserService;
+
+import javax.validation.Valid;
+import java.util.Map;
+
+@Controller
+public class ProjectController {
+    @Autowired
+    private ProjectService projectService;
+
+    @Autowired
+    private UserService userService;
+
+    @PostMapping("/project")
+    public String addProject(
+            @AuthenticationPrincipal User user,
+            @Valid Project project,
+            BindingResult bindingResult,
+            Model model
+    ) {
+        project.setManager(user);
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+
+            model.mergeAttributes(errorsMap);
+            return "project";
+        } if (!projectService.addProject(project)) {
+            model.addAttribute("nameError", "Project exists!");
+            return "project";
+        }
+
+        Iterable<Project> projects = projectService.findAll();
+
+        model.addAttribute("projects", projects);
+        return "project";
+    }
+    @GetMapping("/project")
+    public String projectList(Model model){
+        model.addAttribute("projects", projectService.findAll());
+        return "project";
+    }
+
+//    @GetMapping("{project}")
+//    public String projectEditForm(Project project, Model model){
 //        model.addAttribute("project", project);
-//        model.addAttribute("description", project.getDescription());
-//        model.addAttribute("department", project.getDepartment());
-//        model.addAttribute("manager", project.getManager().getUsername());
-//        model.addAttribute("admin", project.getAdmin().getUsername());
-//        model.addAttribute("active", project.isActive() ? "active" : "inactive");
-//        return "projectProfile";
+//        model.addAttribute("managers", userService.findManagers());
+//        model.addAttribute("admins", userService.findAdmins());
+//        model.addAttribute("developers", userService.findDevelopers());
+//        return "projectEdit";
 //    }
-//
-//
-//
-//
-//}
+}

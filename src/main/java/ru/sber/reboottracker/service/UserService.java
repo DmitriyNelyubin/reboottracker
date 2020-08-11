@@ -85,6 +85,31 @@ public class UserService implements UserDetailsService {
         return userRepo.findAll();
     }
 
+    public List<User> findManagers(){
+        return userRepo.findByRoles(Role.MANAGER);
+    }
+
+    public List<User> findAdmins(){
+        List<User> admins = userRepo.findByRoles(Role.ADMIN);
+        for (User user: admins) {
+            if (user.getRoles().contains(Role.MANAGER)){
+                admins.remove(user);
+            }
+        }
+        return admins;
+    }
+
+    public List<User> findDevelopers(){
+        List<User> developers = userRepo.findAll();
+        for (User user : developers) {
+            if(user.getRoles().contains(Role.ADMIN) || user.getRoles().contains(Role.MANAGER)) {
+                developers.remove(user);
+            }
+        }
+        return developers;
+    }
+
+
     public List<User> findByFindByRoles(Role role){
         return userRepo.findByRoles(role);
     }

@@ -16,11 +16,10 @@ public class ProjectService {
     public boolean addProject (Project project) {
         Project projectFromDB = projectRepo.findByName(project.getName());
 
-        if (projectFromDB == null){
+        if (projectFromDB != null){
             return false;
         }
         project.setActive(true);
-        project.setManager(null);
         project.setAdmin(null);
         project.setDevelopers(null);
         projectRepo.save(project);

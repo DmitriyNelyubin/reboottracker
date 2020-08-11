@@ -27,7 +27,7 @@
             </#if>
             <#if user??>
                 <li class="nav-item">
-                    <a class="nav-link" href="/createProject">Project</a>
+                    <a class="nav-link" href="/project">Project</a>
                 </li>
             </#if>
         </ul>
