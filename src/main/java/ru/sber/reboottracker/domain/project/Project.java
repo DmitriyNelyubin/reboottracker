@@ -31,6 +31,15 @@ public class Project {
     public Project() {
     }
 
+    public Project(
+            @NotBlank(message = "Project name can't be empty") String name,
+            @NotBlank(message = "Project description can't be empty") String description,
+            @NotBlank(message = "Department can't be empty") String department) {
+        this.name = name;
+        this.description = description;
+        this.department = department;
+    }
+
     public Long getId() {
         return id;
     }

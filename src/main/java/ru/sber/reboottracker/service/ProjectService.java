@@ -9,7 +9,7 @@ import ru.sber.reboottracker.repos.ProjectRepo;
 import java.util.List;
 
 @Service
-public class ProjectServise {
+public class ProjectService {
     @Autowired
     private ProjectRepo projectRepo;
 
@@ -20,6 +20,9 @@ public class ProjectServise {
             return false;
         }
         project.setActive(true);
+        project.setManager(null);
+        project.setAdmin(null);
+        project.setDevelopers(null);
         projectRepo.save(project);
         return true;
     }
