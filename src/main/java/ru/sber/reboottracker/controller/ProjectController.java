@@ -1,6 +1,7 @@
 package ru.sber.reboottracker.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ru.sber.reboottracker.domain.project.Project;
 import ru.sber.reboottracker.domain.user.User;
 import ru.sber.reboottracker.service.ProjectService;
@@ -17,6 +19,7 @@ import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/project")
 public class ProjectController {
     @Autowired
     private ProjectService projectService;
@@ -24,7 +27,8 @@ public class ProjectController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/project")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PostMapping
     public String addProject(
             @AuthenticationPrincipal User user,
             @Valid Project project,
@@ -47,18 +51,18 @@ public class ProjectController {
         model.addAttribute("projects", projects);
         return "project";
     }
-    @GetMapping("/project")
+    @GetMapping
     public String projectList(Model model){
         model.addAttribute("projects", projectService.findAll());
         return "project";
     }
 
-//    @GetMapping("{project}")
-//    public String projectEditForm(Project project, Model model){
-//        model.addAttribute("project", project);
-//        model.addAttribute("managers", userService.findManagers());
-//        model.addAttribute("admins", userService.findAdmins());
-//        model.addAttribute("developers", userService.findDevelopers());
-//        return "projectEdit";
-//    }
+    @GetMapping("{project}")
+    public String projectEditForm(@PathVariable Project project, Model model){
+        model.addAttribute("project", project);
+        model.addAttribute("managers", userService.findManagers());
+        model.addAttribute("admins", userService.findAdmins());
+        model.addAttribute("developers", userService.findDevelopers());
+        return "projectEdit";
+    }
 }

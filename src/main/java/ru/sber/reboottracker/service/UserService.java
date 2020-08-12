@@ -2,6 +2,7 @@ package ru.sber.reboottracker.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
+import ru.sber.reboottracker.domain.project.Project;
 import ru.sber.reboottracker.domain.user.Role;
 import ru.sber.reboottracker.domain.user.User;
 import ru.sber.reboottracker.repos.UserRepo;
@@ -90,25 +91,14 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> findAdmins(){
-        List<User> admins = userRepo.findByRoles(Role.ADMIN);
-        for (User user: admins) {
-            if (user.getRoles().contains(Role.MANAGER)){
-                admins.remove(user);
-            }
-        }
-        return admins;
+        return userRepo.findByRoles(Role.ADMIN);
     }
 
     public List<User> findDevelopers(){
         List<User> developers = userRepo.findAll();
-        for (User user : developers) {
-            if(user.getRoles().contains(Role.ADMIN) || user.getRoles().contains(Role.MANAGER)) {
-                developers.remove(user);
-            }
-        }
+        userRepo.findAll().removeIf(user -> user.getRoles().contains(Role.ADMIN) || user.getRoles().contains(Role.MANAGER));
         return developers;
     }
-
 
     public List<User> findByFindByRoles(Role role){
         return userRepo.findByRoles(role);

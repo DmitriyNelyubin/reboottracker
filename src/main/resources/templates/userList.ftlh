@@ -3,8 +3,8 @@
 <@c.page>
     List of users
 
-    <table>
-        <thead>
+    <table class="table">
+        <thead class="thead-light">
         <tr>
             <th>Name</th>
             <th>Role</th>

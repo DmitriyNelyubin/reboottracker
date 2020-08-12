@@ -3,13 +3,15 @@
 
 <@c.page>
     <#if isAdmin>
-    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-        Add new project
-    </a>
+        <p>
+            <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Add new project
+            </a>
+        </p>
     <div class="collapse <#if project??>show</#if>" id="collapseExample">
         <form action="/project" method="post">
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Project Name :</label>
+                <label class="col-sm-2 col-form-label">Project Name </label>
                 <div class="col-sm-6">
                     <input type="text" name="name" class="form-control ${(nameError??)?string('is-invalid', '')}"
                            placeholder="Project name" />
@@ -52,6 +54,7 @@
     </div>
     </#if>
 
+    <p>
     <table class="table">
         <thead class="thead-light">
         <tr>
@@ -59,6 +62,9 @@
             <th scope="col">Name</th>
             <th scope="col">Department</th>
             <th scope="col">Manager</th>
+            <#if isAdmin>
+            <th scope="col"></th>
+            </#if>
         </tr>
         </thead>
         <tbody>
@@ -68,9 +74,12 @@
                 <td>${project.name!}</td>
                 <td>${project.department!}</td>
                 <td>${project.manager.getUsername()!}</td>
+                <#if isAdmin>
                 <td><a href="/project/${project.id}">edit</a></td>
+                </#if>
             </tr>
         </#list>
         </tbody>
     </table>
+    </p>
 </@c.page>
