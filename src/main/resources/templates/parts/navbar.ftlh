@@ -25,9 +25,14 @@
                     <a class="nav-link" href="/user/profile">Profile</a>
                 </li>
             </#if>
+            <#if isAdmin>
+                <li class="nav-item">
+                    <a class="nav-link" href="/createProject">New Project</a>
+                </li>
+            </#if>
             <#if user??>
                 <li class="nav-item">
-                    <a class="nav-link" href="/project">Project</a>
+                    <a class="nav-link" href="/projectList">Project list</a>
                 </li>
             </#if>
         </ul>

@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/project")
+@RequestMapping("/createProject")
 public class ProjectController {
     @Autowired
     private ProjectService projectService;
@@ -40,29 +40,20 @@ public class ProjectController {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
 
             model.mergeAttributes(errorsMap);
-            return "project";
+            return "createProject";
         } if (!projectService.addProject(project)) {
             model.addAttribute("nameError", "Project exists!");
-            return "project";
+            return "createProject";
         }
 
         Iterable<Project> projects = projectService.findAll();
 
         model.addAttribute("projects", projects);
-        return "project";
+        return "createProject";
     }
     @GetMapping
     public String projectList(Model model){
         model.addAttribute("projects", projectService.findAll());
-        return "project";
-    }
-
-    @GetMapping("{project}")
-    public String projectEditForm(@PathVariable Project project, Model model){
-        model.addAttribute("project", project);
-        model.addAttribute("managers", userService.findManagers());
-        model.addAttribute("admins", userService.findAdmins());
-        model.addAttribute("developers", userService.findDevelopers());
-        return "projectEdit";
+        return "createProject";
     }
 }

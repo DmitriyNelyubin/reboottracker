@@ -75,7 +75,7 @@
                 <td>${project.department!}</td>
                 <td>${project.manager.getUsername()!}</td>
                 <#if isAdmin>
-                <td><a href="/project/${project.id}">edit</a></td>
+                <td><a href="/projectList/${project.id}">edit</a></td>
                 </#if>
             </tr>
         </#list>

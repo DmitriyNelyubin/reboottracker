@@ -5,13 +5,20 @@ import org.springframework.stereotype.Service;
 import ru.sber.reboottracker.domain.project.Project;
 import ru.sber.reboottracker.domain.user.User;
 import ru.sber.reboottracker.repos.ProjectRepo;
+import ru.sber.reboottracker.repos.UserRepo;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectService {
     @Autowired
     private ProjectRepo projectRepo;
+
+    @Autowired
+    private UserRepo userRepo;
 
     public boolean addProject (Project project) {
         Project projectFromDB = projectRepo.findByName(project.getName());
@@ -30,12 +37,17 @@ public class ProjectService {
         return projectRepo.findAll();
     }
 
-    public void updateProject(Project project, String description, String department, User manager, User admin, boolean active) {
+    public void updateProject(Project project, String name, String description, String department, boolean active, User manager, User admin, List<User> developers) {
+        String projectName = project.getName();
         String projectDescription = project.getDescription();
         String projectDepartment = project.getDepartment();
+        boolean projectActive = project.isActive();
         User projectManager = project.getManager();
         User projectAdmin = project.getAdmin();
-        boolean projectActive = project.isActive();
+        List<User> projectDevelopers = project.getDevelopers();
+
+        boolean isNameChanged = (name != null && !name.equals(projectName) ||
+                (projectName != null && !projectName.equals(name)));
 
         boolean isDescriptionChanged = (description != null && !description.equals(projectDescription) ||
                 (projectDescription != null && !projectDescription.equals(description)));
@@ -43,13 +55,17 @@ public class ProjectService {
         boolean isDepartmentChanged = (department != null && !department.equals(projectDepartment)) ||
                 (projectDepartment != null && !projectDepartment.equals(department));
 
-        boolean isProjectManagerChanged = (projectManager != null && !manager.equals(projectManager)) ||
+        boolean isProjectManagerChanged = (manager != null && !manager.equals(projectManager)) ||
                 (projectManager != null && !projectManager.equals(manager));
 
-        boolean isProjectAdminChanged = (projectAdmin != null && !admin.equals(projectAdmin)) ||
+        boolean isProjectAdminChanged = (admin != null && !admin.equals(projectAdmin)) ||
                 (projectAdmin != null && !projectAdmin.equals(admin));
 
         boolean isActiveChanged = active != projectActive;
+
+        if (isNameChanged) {
+            project.setName(name);
+        }
 
         if (isDescriptionChanged) {
             project.setDescription(description);
@@ -71,8 +87,16 @@ public class ProjectService {
             project.setActive(active);
         }
 
+        if (isDevelopersChanged(projectDevelopers, developers)) {
+            project.setDevelopers(null);
+            project.setDevelopers(developers);
+        }
+
         projectRepo.save(project);
     }
 
-
+    private boolean isDevelopersChanged (List<User> projectDevelopers, List<User> developers){
+        developers.removeIf(projectDevelopers::contains);
+        return !developers.isEmpty();
+        }
 }
