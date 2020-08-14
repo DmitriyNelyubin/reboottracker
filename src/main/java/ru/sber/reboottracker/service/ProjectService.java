@@ -37,6 +37,10 @@ public class ProjectService {
         return projectRepo.findAll();
     }
 
+    public List<Project> findByDevelopers(User user) {
+        return projectRepo.findByDevelopers(user);
+    }
+
     public void updateProject(Project project, String name, String description, String department, boolean active, User manager, User admin, List<User> developers) {
         String projectName = project.getName();
         String projectDescription = project.getDescription();

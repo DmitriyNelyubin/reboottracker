@@ -7,7 +7,7 @@
                        class="form-control ${(usernameError??)?string('is-invalid', '')}"
                        placeholder="User name" />
                 <#if usernameError??>
-                    <div class="invalid-feedback">
+                    <div class="invalid-feedback">message
                         ${usernameError}
                     </div>
                 </#if>

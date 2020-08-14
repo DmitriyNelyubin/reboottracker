@@ -22,7 +22,7 @@ public class Project {
     private User manager;
     @ManyToOne(fetch = FetchType.EAGER)
     private User admin;
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<User> developers;
     private boolean active;
 

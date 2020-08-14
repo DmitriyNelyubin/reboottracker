@@ -7,13 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.sber.reboottracker.domain.project.Project;
 import ru.sber.reboottracker.domain.user.User;
 import ru.sber.reboottracker.service.ProjectService;
-import ru.sber.reboottracker.service.UserService;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -23,9 +21,6 @@ import java.util.Map;
 public class ProjectController {
     @Autowired
     private ProjectService projectService;
-
-    @Autowired
-    private UserService userService;
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping
@@ -52,8 +47,10 @@ public class ProjectController {
         return "createProject";
     }
     @GetMapping
-    public String projectList(Model model){
-        model.addAttribute("projects", projectService.findAll());
+    public String projectList(
+            @AuthenticationPrincipal User user,
+            Model model){
+        model.addAttribute("projects", projectService.findByDevelopers(user));
         return "createProject";
     }
 }
