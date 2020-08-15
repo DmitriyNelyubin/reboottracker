@@ -8,30 +8,29 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+            <#if user??>
             <li class="nav-item">
                 <a class="nav-link" href="/">Home</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/main">Messages</a>
-            </li>
-            <#if isAdmin>
-                <li class="nav-item">
-                    <a class="nav-link" href="/user">User list</a>
-                </li>
             </#if>
             <#if isAdmin>
                 <li class="nav-item">
-                    <a class="nav-link" href="/createProject">New Project</a>
+                    <a class="nav-link" href="/user">Uses</a>
                 </li>
             </#if>
             <#if user??>
                 <li class="nav-item">
-                    <a class="nav-link" href="/projectList">Project list</a>
+                    <a class="nav-link" href="/projectList">Projects</a>
+                </li>
+            </#if>
+            <#if user??>
+                <li class="nav-item">
+                    <a class="nav-link" href="/issue">Issues</a>
                 </li>
             </#if>
         </ul>
         <#if name != "unknown">
-                    <a class="nav-link" href="/user/profile">${name}</a>
+                    <a class="nav-link" href="/user/userProfile">${name}</a>
         <@l.logout />
         </#if>
     </div>

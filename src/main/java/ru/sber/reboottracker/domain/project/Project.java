@@ -4,7 +4,10 @@ import ru.sber.reboottracker.domain.user.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "project")
@@ -23,6 +26,7 @@ public class Project {
     @ManyToOne(fetch = FetchType.EAGER)
     private User admin;
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "project_id")
     private List<User> developers;
     private boolean active;
 
@@ -80,10 +84,13 @@ public class Project {
     }
 
     public List<User> getDevelopers() {
-        return developers;
+        return developers.stream().distinct().collect(Collectors.toList());
     }
 
     public void setDevelopers(List<User> developers) {
+        if (developers != null) {
+            this.developers.clear();
+        }
         this.developers = developers;
     }
 

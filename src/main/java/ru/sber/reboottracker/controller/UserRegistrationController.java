@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.Map;
 
 @Controller
-public class RegistrationController {
+public class UserRegistrationController {
     private final static String CAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s";
 
     @Autowired
@@ -47,6 +47,7 @@ public class RegistrationController {
     ) {
         String url = String.format(CAPTCHA_URL, secret, captchaResponse);
         CaptchaResponseDto response = restTemplate.postForObject(url, Collections.emptyList(), CaptchaResponseDto.class);
+
         boolean isConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
 
         if (!response.isSuccess()){

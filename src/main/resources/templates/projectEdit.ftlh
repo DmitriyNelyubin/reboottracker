@@ -2,7 +2,7 @@
 
 <@c.page>
     <h2>Project editor</h2>
-    <form action="/projectList" method="post">
+    <form action="/projectEdit" method="post">
         <p>
         <div>
             <input type="hidden" value="${project.id}" name="projectId">
@@ -59,7 +59,7 @@
                 <div>
                     <label>
                         <input name="developer" type="checkbox" value="${developer.id}" <#if project.developers??>${project.developers?seq_contains(developer)?string("checked", "")}</#if>>
-                        ${developer.username}
+                     ${developer.username}
                     </label>
                 </div>
             </#list>

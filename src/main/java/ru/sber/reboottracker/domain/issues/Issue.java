@@ -1,6 +1,7 @@
 package ru.sber.reboottracker.domain.issues;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import ru.sber.reboottracker.domain.project.Project;
 import ru.sber.reboottracker.domain.user.User;
 
 import javax.persistence.*;
@@ -21,11 +22,14 @@ public class Issue {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User reporter;
+    @NotBlank(message = "Set executor")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User executor;
+    @NotBlank(message = "Set issue status")
     @Enumerated(EnumType.STRING)
     private IssueStatus status;
+    @NotBlank(message = "Set issue type")
     @Enumerated(EnumType.STRING)
     private IssueType type;
     @DateTimeFormat(pattern = "dd.MM.yyyy")
@@ -39,18 +43,20 @@ public class Issue {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "issue_id")
     private Issue superIssue;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "project_id")
+    private Project project;
 
     public Issue() {
     }
 
-    public boolean addSubIssue(Issue issue) {
-        if (issue != null) {
-            issue.setSuperIssue(this);
-            subIssues.add(issue);
-            hasSubIssues = true;
-            return true;
-        }
-        return false;
+    public Issue(String name, String description, User reporter, User executor, IssueStatus status, IssueType type){
+        this.name = name;
+        this.description = description;
+        this.reporter = reporter;
+        this.executor = executor;
+        this.status = status;
+        this.type = type;
     }
 
     public Issue getSuperIssue() {
@@ -63,10 +69,6 @@ public class Issue {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -124,6 +126,10 @@ public class Issue {
         return creationDate;
     }
 
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
     public Date getCloseDate() {
         return closeDate;
     }
@@ -142,5 +148,13 @@ public class Issue {
 
     public void setHasSubIssues(boolean hasSubIssues) {
         this.hasSubIssues = hasSubIssues;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 }

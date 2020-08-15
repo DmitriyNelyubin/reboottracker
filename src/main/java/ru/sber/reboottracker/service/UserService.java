@@ -1,10 +1,12 @@
 package ru.sber.reboottracker.service;
 
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 import ru.sber.reboottracker.domain.project.Project;
 import ru.sber.reboottracker.domain.user.Role;
 import ru.sber.reboottracker.domain.user.User;
+import ru.sber.reboottracker.repos.ProjectRepo;
 import ru.sber.reboottracker.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -96,11 +98,15 @@ public class UserService implements UserDetailsService {
 
     public List<User> findDevelopers(){
         List<User> developers = userRepo.findAll();
-        userRepo.findAll().removeIf(user -> user.getRoles().contains(Role.ADMIN) || user.getRoles().contains(Role.MANAGER));
+        developers.removeIf(user -> user.getRoles().contains(Role.ADMIN) || user.getRoles().contains(Role.MANAGER));
         return developers;
     }
 
-    public List<User> findByFindByRoles(Role role){
+    public List<User> findDevelopersByProject(Project project){
+        return project.getDevelopers();
+    }
+
+    public List<User> findByRoles(Role role){
         return userRepo.findByRoles(role);
     }
 
@@ -134,7 +140,7 @@ public class UserService implements UserDetailsService {
         }
 
         if (!StringUtils.isEmpty(password)) {
-            user.setPassword(password);
+            user.setPassword(passwordEncoder.encode(password));
         }
 
         userRepo.save(user);

@@ -5,20 +5,13 @@ import org.springframework.stereotype.Service;
 import ru.sber.reboottracker.domain.project.Project;
 import ru.sber.reboottracker.domain.user.User;
 import ru.sber.reboottracker.repos.ProjectRepo;
-import ru.sber.reboottracker.repos.UserRepo;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 @Service
 public class ProjectService {
     @Autowired
     private ProjectRepo projectRepo;
-
-    @Autowired
-    private UserRepo userRepo;
 
     public boolean addProject (Project project) {
         Project projectFromDB = projectRepo.findByName(project.getName());
@@ -27,7 +20,6 @@ public class ProjectService {
             return false;
         }
         project.setActive(true);
-        project.setAdmin(null);
         project.setDevelopers(null);
         projectRepo.save(project);
         return true;
@@ -37,9 +29,7 @@ public class ProjectService {
         return projectRepo.findAll();
     }
 
-    public List<Project> findByDevelopers(User user) {
-        return projectRepo.findByDevelopers(user);
-    }
+
 
     public void updateProject(Project project, String name, String description, String department, boolean active, User manager, User admin, List<User> developers) {
         String projectName = project.getName();
@@ -92,7 +82,6 @@ public class ProjectService {
         }
 
         if (isDevelopersChanged(projectDevelopers, developers)) {
-            project.setDevelopers(null);
             project.setDevelopers(developers);
         }
 
@@ -100,7 +89,13 @@ public class ProjectService {
     }
 
     private boolean isDevelopersChanged (List<User> projectDevelopers, List<User> developers){
-        developers.removeIf(projectDevelopers::contains);
-        return !developers.isEmpty();
+        if (developers == null){
+            return true;
+        }
+        if (projectDevelopers.size() == developers.size()) {
+            developers.removeIf(projectDevelopers::contains);
+            return !developers.isEmpty();
+        }
+        return true;
         }
 }
