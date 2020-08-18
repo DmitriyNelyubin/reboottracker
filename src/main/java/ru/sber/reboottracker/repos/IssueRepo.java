@@ -13,6 +13,7 @@ public interface IssueRepo extends CrudRepository<Issue, Long> {
     List<Issue> findAll();
     Issue findByName(String name);
     List<Issue> findByProject(Project project);
+    Issue findByNameAndProject (String name, Project project);
     List<Issue> findByReporter(User user);
     List<Issue> findByExecutor(User user);
     List<Issue> findAllByStatus(IssueStatus status);

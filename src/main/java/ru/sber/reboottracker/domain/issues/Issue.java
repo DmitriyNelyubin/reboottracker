@@ -23,11 +23,9 @@ public class Issue {
     private String description;
     @NotNull(message = "Set reporter")
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User reporter;
     @NotNull(message = "Set executor")
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User executor;
     @NotNull(message = "Set issue status")
     @Enumerated(EnumType.STRING)
@@ -53,13 +51,14 @@ public class Issue {
     public Issue() {
     }
 
-    public Issue(String name, String description, User reporter, User executor, IssueStatus status, IssueType type){
+    public Issue(String name, String description, User reporter, User executor, IssueStatus status, IssueType type, Project project){
         this.name = name;
         this.description = description;
         this.reporter = reporter;
         this.executor = executor;
         this.status = status;
         this.type = type;
+        this.project = project;
     }
 
     public Issue getSuperIssue() {

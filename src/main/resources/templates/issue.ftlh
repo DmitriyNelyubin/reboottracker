@@ -9,10 +9,13 @@
     </p>
     <div class="collapse <#if issue??>show</#if>" id="createIssue">
         <form action="/issue/" method="post">
+
+            <input type="hidden" value="${_csrf.token}" name="_csrf">
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Issue Name </label>
                 <div class="col-sm-6">
-                    <input type="text" name="name" class="form-control ${(nameError??)?string('is-invalid', '')}"
+                    <input type="text" name="name" value="<#if issue??>${issue.name}</#if>"
+                           class="form-control ${(nameError??)?string('is-invalid', '')}"
                            placeholder="Issue name" />
                     <#if nameError??>
                         <div class="invalid-feedback">
@@ -24,7 +27,7 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Description</label>
                 <div class="col-sm-6">
-                    <input type="text" name="description"
+                    <input type="text" name="description" value="<#if issue??>${issue.description}</#if>"
                            class="form-control ${(descriptionError??)?string('is-invalid', '')}"
                            placeholder="Description"/>
                     <#if descriptionError??>
@@ -37,29 +40,28 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Reporter</label>
                 <div class="col-sm-6">
-                    <input type="text" name="reporter"
-                           class="form-control ${(reporterError??)?string('is-invalid', '')}"
-                           placeholder="${user.username}" readonly/>
+                           ${user.username}
+                    <input type="hidden" value="${user.id}" name="reporter">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Project</label>
                 <div class="col-sm-6">
-                    <input type="text" name="project"
-                           class="form-control" ${(projectError??)?string('is-invalid', '')}
-                           placeholder="${project.name}" readonly/>
+                    <div>
+                        <input type="hidden" value="${project.id!}" name="project">
+                        ${project.name}
+                    </div>
                 </div>
             </div>
             <p>
             <div>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#developers" aria-expanded="false" aria-controls="developers">Edit executor</button>
+            <p><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#developers" aria-expanded="false" aria-controls="developers">Edit executor</button></p>
                 <div class="collapse multi-collapse" id="developers">
                         <p>Developers:</p>
                         <#list developers as developer>
                             <div>
                                 <label>
-                                    <input name="developer" type="checkbox"
-                                           class="form-control" ${(drveloperError??)?string('is-invalid', '')}
+                                    <input name="executor" type="radio"
                                            value="${developer.id}" <#if project.developers??>${project.developers?seq_contains(developer)?string("checked", "")}</#if>>
                                     ${developer.username}
                                 </label>
@@ -70,7 +72,7 @@
             </p>
             <p>
             <div>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#statuses" aria-expanded="false" aria-controls="developers">Set status</button>
+            <p><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#statuses" aria-expanded="false" aria-controls="developers">Set status</button></p>
             <div class="collapse multi-collapse" id="statuses">
                 <div class="card card-body">
                     <#list statuses as status>
@@ -87,7 +89,7 @@
             </p>
             <p>
             <div>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#type" aria-expanded="false" aria-controls="developers">Set type</button>
+            <p><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#type" aria-expanded="false" aria-controls="developers">Set type</button></p>
             <div class="collapse multi-collapse" id="type">
                 <div class="card card-body">
                     <#list types as type>
@@ -103,7 +105,48 @@
             </div>
             </p>
             <input type="hidden" name="_csrf" value="${_csrf.token}" />
-            <button class="btn btn-primary" type="submit">Create</button>
+            <p><button class="btn btn-primary" type="submit">Create</button></p>
         </form>
     </div>
+    <p><b>Issues: </b>
+    <#if issues?has_content>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#issues" aria-expanded="false" aria-controls="issues">Project issues</button>
+        </p>
+        <div class="collapse multi-collapse" id="issues">
+            <table class="table">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Reporter</th>
+                    <th scope="col">Executor</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Sub issues</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <#list issues! as issue>
+                    <tr>
+                        <td>${issue.id!}</td>
+                        <td>${issue.name!}</td>
+                        <td>${issue.description!}</td>
+                        <td>${issue.reporter.username!}</td>
+                        <td><#if issue.executor??>${issue.executor.username}<#else>no executor</#if></td>
+                        <td>${issue.status!}</td>
+                        <td>${issue.type!}</td>
+                        <td><#if issue.hasSubIssues><a href="/"><#else>no subissue</#if></td>
+                        <#if isAdmin>
+                            <td><a href="/issueList/${issue.id}">more</a></td>
+                        </#if>
+                    </tr>
+                </#list>
+                </tbody>
+            </table>
+        </div>
+    <#else>
+        no issues
+    </#if>
 </@c.page>

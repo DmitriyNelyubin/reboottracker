@@ -39,10 +39,10 @@ public class ProjectEditController {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
 
             model.mergeAttributes(errorsMap);
-            return "createProject_d";
+            return "projectList";
         } if (!projectService.addProject(project)) {
             model.addAttribute("nameError", "Project exists!");
-            return "createProject_d";
+            return "projectList";
         }
 
         Iterable<Project> projects = projectService.findAll();

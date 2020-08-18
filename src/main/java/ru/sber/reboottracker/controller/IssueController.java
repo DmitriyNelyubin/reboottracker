@@ -21,6 +21,7 @@ import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/issue")
 public class IssueController {
     @Autowired
     IssueRepo issueRepo;
@@ -32,42 +33,52 @@ public class IssueController {
     UserService userService;
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    @PostMapping("/issue")
+    @PostMapping
     public String addIssue(
             @AuthenticationPrincipal User user,
             @Valid Issue issue,
+            @RequestParam("executor") User executor,
+            @RequestParam("reporter") User reporter,
+            @RequestParam("project") Project project,
             BindingResult bindingResult,
             Model model
     ) {
         if (bindingResult.hasErrors()) {
-            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+//            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+//            model.mergeAttributes(errorsMap);
 
-            model.mergeAttributes(errorsMap);
-            return "issue";
+
+            return "/issue";
         }
-        issue.setReporter(user);
-        if (!issueService.addIssue(issue)) {
+
+        if (!issueService.addIssue(issue, reporter, executor, project)) {
             model.addAttribute("nameError", "Issue exists!");
-            return "issue";
+            model.addAttribute("project", project);
+            model.addAttribute("developers", userService.findDevelopersByProject(project));
+            model.addAttribute("statuses", IssueStatus.values());
+            model.addAttribute("types" , IssueType.values());
+            model.addAttribute("issues", issueRepo.findByProject(project));
+
+            return "/issue";
         }
 
         Iterable<Issue> issues = issueRepo.findAll();
 
         model.addAttribute("issues", issues);
-        return "issue";
+        return "redirect:/issue/" + project.getId();
     }
 
-    @GetMapping("issue/{project}")
+    @GetMapping("{project}")
     public String issueList(
             @AuthenticationPrincipal User user,
             @PathVariable Project project,
             Model model){
+        model.addAttribute("issues", issueRepo.findByProject(project));
         model.addAttribute("user", user);
         model.addAttribute("project", project);
-        model.addAttribute("issues", issueRepo.findAll());
         model.addAttribute("developers", userService.findDevelopersByProject(project));
         model.addAttribute("statuses", IssueStatus.values());
         model.addAttribute("types" , IssueType.values());
-        return "issue";
+        return "/issue";
     }
 }
