@@ -64,6 +64,6 @@ public class UserController {
     ) {
         userService.updateProfile(user, password, email);
 
-        return "redirect:/user/profile";
+        return "redirect:/user/userProfile";
     }
 }

@@ -32,24 +32,23 @@ public class IssueController {
     UserService userService;
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    @PostMapping("/issue/{project}")
+    @PostMapping("/issue")
     public String addIssue(
             @AuthenticationPrincipal User user,
-            @PathVariable Project project,
             @Valid Issue issue,
             BindingResult bindingResult,
             Model model
     ) {
-        issue.setReporter(user);
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
 
             model.mergeAttributes(errorsMap);
             return "issue";
         }
+        issue.setReporter(user);
         if (!issueService.addIssue(issue)) {
             model.addAttribute("nameError", "Issue exists!");
-            return "/issue";
+            return "issue";
         }
 
         Iterable<Issue> issues = issueRepo.findAll();

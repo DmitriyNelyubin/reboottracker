@@ -38,7 +38,7 @@
                 <label class="col-sm-2 col-form-label">Reporter</label>
                 <div class="col-sm-6">
                     <input type="text" name="reporter"
-                           class="form-control ${(departmentError??)?string('is-invalid', '')}"
+                           class="form-control ${(reporterError??)?string('is-invalid', '')}"
                            placeholder="${user.username}" readonly/>
                 </div>
             </div>
@@ -46,7 +46,7 @@
                 <label class="col-sm-2 col-form-label">Project</label>
                 <div class="col-sm-6">
                     <input type="text" name="project"
-                           class="form-control"
+                           class="form-control" ${(projectError??)?string('is-invalid', '')}
                            placeholder="${project.name}" readonly/>
                 </div>
             </div>
@@ -58,7 +58,9 @@
                         <#list developers as developer>
                             <div>
                                 <label>
-                                    <input name="developer" type="checkbox" value="${developer.id}" <#if project.developers??>${project.developers?seq_contains(developer)?string("checked", "")}</#if>>
+                                    <input name="developer" type="checkbox"
+                                           class="form-control" ${(drveloperError??)?string('is-invalid', '')}
+                                           value="${developer.id}" <#if project.developers??>${project.developers?seq_contains(developer)?string("checked", "")}</#if>>
                                     ${developer.username}
                                 </label>
                             </div>

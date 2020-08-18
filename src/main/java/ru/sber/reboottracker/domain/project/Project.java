@@ -84,11 +84,14 @@ public class Project {
     }
 
     public List<User> getDevelopers() {
+        if (developers == null) {
+            return null;
+        }
         return developers.stream().distinct().collect(Collectors.toList());
     }
 
     public void setDevelopers(List<User> developers) {
-        if (developers != null) {
+        if (developers != null && this.developers != null) {
             this.developers.clear();
         }
         this.developers = developers;

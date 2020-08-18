@@ -2,10 +2,12 @@ package ru.sber.reboottracker.domain.issues;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.sber.reboottracker.domain.project.Project;
+import ru.sber.reboottracker.domain.user.Role;
 import ru.sber.reboottracker.domain.user.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 
@@ -19,17 +21,18 @@ public class Issue {
     private String name;
     @NotBlank(message = "Issue description can't be empty")
     private String description;
+    @NotNull(message = "Set reporter")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User reporter;
-    @NotBlank(message = "Set executor")
+    @NotNull(message = "Set executor")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User executor;
-    @NotBlank(message = "Set issue status")
+    @NotNull(message = "Set issue status")
     @Enumerated(EnumType.STRING)
     private IssueStatus status;
-    @NotBlank(message = "Set issue type")
+    @NotNull(message = "Set issue type")
     @Enumerated(EnumType.STRING)
     private IssueType type;
     @DateTimeFormat(pattern = "dd.MM.yyyy")
