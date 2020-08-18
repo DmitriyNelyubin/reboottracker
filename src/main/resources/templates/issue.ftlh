@@ -110,9 +110,7 @@
     </div>
     <p><b>Issues: </b>
     <#if issues?has_content>
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#issues" aria-expanded="false" aria-controls="issues">Project issues</button>
         </p>
-        <div class="collapse multi-collapse" id="issues">
             <table class="table">
                 <thead class="thead-light">
                 <tr>
@@ -139,13 +137,12 @@
                         <td>${issue.type!}</td>
                         <td><#if issue.hasSubIssues><a href="/"><#else>no subissue</#if></td>
                         <#if isAdmin>
-                            <td><a href="/issueList/${issue.id}">more</a></td>
+                            <td><a href="/issueProfile/${issue.id}">more</a></td>
                         </#if>
                     </tr>
                 </#list>
                 </tbody>
             </table>
-        </div>
     <#else>
         no issues
     </#if>

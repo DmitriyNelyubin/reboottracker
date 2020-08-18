@@ -13,7 +13,6 @@ import ru.sber.reboottracker.domain.issues.IssueType;
 import ru.sber.reboottracker.domain.project.Project;
 import ru.sber.reboottracker.domain.user.User;
 import ru.sber.reboottracker.repos.IssueRepo;
-import ru.sber.reboottracker.repos.UserRepo;
 import ru.sber.reboottracker.service.IssueService;
 import ru.sber.reboottracker.service.UserService;
 
@@ -32,33 +31,32 @@ public class IssueController {
     @Autowired
     UserService userService;
 
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+//    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping
     public String addIssue(
             @AuthenticationPrincipal User user,
             @Valid Issue issue,
+            BindingResult bindingResult,
             @RequestParam("executor") User executor,
             @RequestParam("reporter") User reporter,
             @RequestParam("project") Project project,
-            BindingResult bindingResult,
+
             Model model
     ) {
+        model.addAttribute("project", project);
+        model.addAttribute("developers", userService.findDevelopersByProject(project));
+        model.addAttribute("statuses", IssueStatus.values());
+        model.addAttribute("types" , IssueType.values());
+        model.addAttribute("issues", issueRepo.findByProject(project));
+
         if (bindingResult.hasErrors()) {
-//            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
-//            model.mergeAttributes(errorsMap);
-
-
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
             return "/issue";
         }
 
         if (!issueService.addIssue(issue, reporter, executor, project)) {
             model.addAttribute("nameError", "Issue exists!");
-            model.addAttribute("project", project);
-            model.addAttribute("developers", userService.findDevelopersByProject(project));
-            model.addAttribute("statuses", IssueStatus.values());
-            model.addAttribute("types" , IssueType.values());
-            model.addAttribute("issues", issueRepo.findByProject(project));
-
             return "/issue";
         }
 

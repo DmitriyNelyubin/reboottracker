@@ -5,11 +5,48 @@
     <form action="/projectEdit" method="post">
         <p>
         <div>
-            <input type="hidden" value="${project.id}" name="projectId">
+            <input type="hidden" value="${project.id!}" name="projectId">
             <input type="hidden" value="${_csrf.token}" name="_csrf">
-            <input type="text" name="name" value="${project.name}">
-            <input type="text" name="description" value="${project.description}">
-            <input type="text" name="department" value="${project.department}">
+            <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Project Name </label>
+            <div class="col-sm-6">
+                <input type="text" name="name" value="<#if project??>${project.name!}</#if>"
+                       class="form-control ${(nameError??)?string('is-invalid', '')}"
+                       placeholder="Issue name" />
+                <#if nameError??>
+                    <div class="invalid-feedback">
+                        ${nameError}
+                    </div>
+                </#if>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-6">
+                <input type="text" name="description" value="<#if project??>${project.description}</#if>"
+                       class="form-control ${(descriptionError??)?string('is-invalid', '')}"
+                       placeholder="Description"/>
+                <#if descriptionError??>
+                    <div class="invalid-feedback">
+                        ${descriptionError}
+                    </div>
+                </#if>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Department</label>
+            <div class="col-sm-6">
+                <input type="text" name="department" value="<#if project??>${project.department}</#if>"
+                       class="form-control ${(descriptionError??)?string('is-invalid', '')}"
+                       placeholder="Department"/>
+                <#if departmentError??>
+                    <div class="invalid-feedback">
+                        ${departmentError}
+                    </div>
+                </#if>
+            </div>
+        </div>
+
             <input type="radio" name="active" value="true" <#if project.isActive()>checked</#if>> isActive</input>
             <input type="radio" name="active" value="false" <#if !project.isActive()>checked</#if>> unActive</input>
         </div>

@@ -81,16 +81,27 @@ public class ProjectEditController {
 
 
     @PostMapping("/projectEdit")
-    public String updateProject(@RequestParam ("projectId") Project project,
-                                @RequestParam String name,
-                                @RequestParam String description,
-                                @RequestParam String department,
+    public String updateProject(@AuthenticationPrincipal User user,
+                                @Valid Project project,
+                                BindingResult bindingResult,
                                 @RequestParam boolean active,
                                 @RequestParam ("manager")User manager,
                                 @RequestParam ("admin")User admin,
-                                @RequestParam(required = false) List<User> developer
+                                @RequestParam(required = false) List<User> developer,
+                                Model model
     ) {
-        projectService.updateProject(project, name, description, department, active, manager, admin, developer);
+        model.addAttribute("managers", userService.findManagers());
+        model.addAttribute("admins", userService.findAdmins());
+        model.addAttribute("developers", userService.findDevelopers());
+        model.addAttribute("active", project.isActive());
+
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
+
+            return "projectEdit";
+        }
+        projectService.updateProject(project, active, manager, admin, developer);
 
         return "redirect:/projectList/" + project.getId().toString();
     }

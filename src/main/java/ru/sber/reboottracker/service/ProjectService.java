@@ -31,60 +31,11 @@ public class ProjectService {
 
 
 
-    public void updateProject(Project project, String name, String description, String department, boolean active, User manager, User admin, List<User> developers) {
-        String projectName = project.getName();
-        String projectDescription = project.getDescription();
-        String projectDepartment = project.getDepartment();
-        boolean projectActive = project.isActive();
-        User projectManager = project.getManager();
-        User projectAdmin = project.getAdmin();
-        List<User> projectDevelopers = project.getDevelopers();
-
-        boolean isNameChanged = (name != null && !name.equals(projectName) ||
-                (projectName != null && !projectName.equals(name)));
-
-        boolean isDescriptionChanged = (description != null && !description.equals(projectDescription) ||
-                (projectDescription != null && !projectDescription.equals(description)));
-
-        boolean isDepartmentChanged = (department != null && !department.equals(projectDepartment)) ||
-                (projectDepartment != null && !projectDepartment.equals(department));
-
-        boolean isProjectManagerChanged = (manager != null && !manager.equals(projectManager)) ||
-                (projectManager != null && !projectManager.equals(manager));
-
-        boolean isProjectAdminChanged = (admin != null && !admin.equals(projectAdmin)) ||
-                (projectAdmin != null && !projectAdmin.equals(admin));
-
-        boolean isActiveChanged = active != projectActive;
-
-        if (isNameChanged) {
-            project.setName(name);
-        }
-
-        if (isDescriptionChanged) {
-            project.setDescription(description);
-        }
-
-        if (isDepartmentChanged) {
-            project.setDepartment(department);
-        }
-
-        if (isProjectManagerChanged) {
-            project.setManager(manager);
-        }
-
-        if (isProjectAdminChanged) {
-            project.setAdmin(admin);
-        }
-
-        if (isActiveChanged) {
-            project.setActive(active);
-        }
-
-        if (isDevelopersChanged(projectDevelopers, developers)) {
-            project.setDevelopers(developers);
-        }
-
+    public void updateProject(Project project, boolean active, User manager, User admin, List<User> developers) {
+        project.setActive(active);
+        project.setManager(manager);
+        project.setAdmin(admin);
+        project.setDevelopers(developers);
         projectRepo.save(project);
     }
 
