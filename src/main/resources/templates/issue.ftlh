@@ -9,7 +9,6 @@
     </p>
     <div class="collapse <#if issue??>show</#if>" id="createIssue">
         <form action="/issue/" method="post">
-
             <input type="hidden" value="${_csrf.token}" name="_csrf">
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Issue Name </label>

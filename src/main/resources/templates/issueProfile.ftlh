@@ -6,8 +6,13 @@
         <p><b>Issue id: </b>${issue.id}</p>
     </div>
     <div>
-        <p><b>Issue project name: </b>${issue.project.name}</p>
+        <p><b>Issue project name: </b><a href="/projectList/${issue.project.id}"> ${issue.project.name}</a></p>
     </div>
+    <#if issue.superIssue??>
+        <div>
+            <p><b>Super issue name: </b> <a href="/issueProfile/${issue.superIssue.id}"> ${issue.superIssue.name}</a> </p>
+        </div>
+    </#if>
     <div>
         <p><b>Issue name: </b>${issue.name}</p>
     </div>
@@ -36,6 +41,10 @@
     <div>
         <p><b>Super issue: </b><a href="/issueEdit/${issue.superIssue.id}">${issue.superIssue.name}</a></p>
     </div>
+        <#else>
+        <div>
+            <a href="/subIssue/${issue.id}">Add sub issue</a>
+        </div>
     </#if>
     <div>
     <p><b>Sub issues: </b>
@@ -45,7 +54,7 @@
         <div class="collapse multi-collapse" id="subIssues">
             <#list  subIssues as subIssue>
                 <div>
-                    <p><a href="/issueEdit/${subIssue.id}">${subIssue.name}</a></p>
+                    <p><a href="/issueProfile/${subIssue.id}">${subIssue.name}</a></p>
                 </div>
             </#list>
         </div>
@@ -53,5 +62,4 @@
         no sub issues
     </#if>
     </div>
-    <p><a href="/issueEdit/${issue.id}">Add sub issue</a></p>
 </@c.page>

@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.reboottracker.domain.project.Project;
 import ru.sber.reboottracker.domain.user.User;
+import ru.sber.reboottracker.repos.IssueRepo;
 import ru.sber.reboottracker.service.ProjectService;
 import ru.sber.reboottracker.service.UserService;
 
@@ -23,6 +24,9 @@ public class ProjectEditController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private IssueRepo issueRepo;
 
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
@@ -63,6 +67,7 @@ public class ProjectEditController {
             Model model) {
         model.addAttribute("project", project);
         model.addAttribute("developers", project.getDevelopers());
+        model.addAttribute("issues", issueRepo.findByProject(project));
 
         return "projectProfile";
     }

@@ -53,6 +53,7 @@
                     <th scope="col">Status</th>
                     <th scope="col">Type</th>
                     <th scope="col">Sub issues</th>
+                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -65,10 +66,8 @@
                         <td><#if issue.executor??>issue.executor.username<#else>no executor</#if></td>
                         <td>${issue.status!}</td>
                         <td>${issue.type!}</td>
-                        <td><#if issue.hasSubissue><a href="/"><#else>no subissue</#if></td>
-                        <#if isAdmin>
-                            <td><a href="/issueList/${issue.id}">more</a></td>
-                        </#if>
+                        <td><#if issue.hasSubIssues>Contain><#else>no subissue</#if></td>
+                        <td><a href="/issueProfile/${issue.id}">more</a></td>
                     </tr>
                 </#list>
                 </tbody>

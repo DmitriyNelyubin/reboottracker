@@ -159,4 +159,8 @@ public class Issue {
     public void setProject(Project project) {
         this.project = project;
     }
+
+    public void addSubIssue(Issue issue) {
+        subIssues.add(issue);
+    }
 }

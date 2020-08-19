@@ -19,7 +19,8 @@ import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
-public class IssueEditController {
+@RequestMapping("/subIssue")
+public class SubIssueController {
     @Autowired
     IssueRepo issueRepo;
 
@@ -29,16 +30,15 @@ public class IssueEditController {
     @Autowired
     UserService userService;
 
-    //    @PreAuthorize("hasAnyAuthority('ADMIN')")
-    @PostMapping("/issueEdit/")
-    public String updateIssue(
-            @AuthenticationPrincipal Issue issue,
-            @RequestParam String name,
-            @RequestParam String description,
+    @PostMapping
+    public String addIssue(
+            @AuthenticationPrincipal User user,
+            @Valid Issue issue,
+            BindingResult bindingResult,
             @RequestParam("executor") User executor,
             @RequestParam("reporter") User reporter,
             @RequestParam("project") Project project,
-
+            @RequestParam("superIssue") Issue superIssue,
             Model model
     ) {
         model.addAttribute("project", project);
@@ -47,37 +47,34 @@ public class IssueEditController {
         model.addAttribute("types" , IssueType.values());
         model.addAttribute("issues", issueRepo.findByProject(project));
 
-        if (!issueService.updateIssue(issue, name, description, reporter, executor, project)) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
+            return "/subIssue";
+        }
+
+        if (!issueService.addSubIssue(issue, reporter, executor, project, superIssue)) {
             model.addAttribute("nameError", "Issue exists!");
-            return "/issueEdit";
+            return "/subIssue";
         }
 
         Iterable<Issue> issues = issueRepo.findAll();
 
         model.addAttribute("issues", issues);
-        return "redirect:/issue/" + project.getId();
-    }
-    @GetMapping("issueEdit/{issue}")
-    public String issueEdit(
-            @AuthenticationPrincipal User user,
-            @PathVariable Issue issue,
-            Model model){
-        model.addAttribute("issue", issue);
-        model.addAttribute("project", issue.getProject());
-        model.addAttribute("statuses", IssueStatus.values());
-        model.addAttribute("types" , IssueType.values());
-        model.addAttribute("issues", issueRepo.findByProject(issue.getProject()));
-        model.addAttribute("developers", userService.findDevelopersByProject(issue.getProject()));
-        return "/issueEdit";
+        return "redirect:/subIssue/" + issue.getId();
     }
 
-    @GetMapping("issueProfile/{issue}")
-    public String issueProfile(
+    @GetMapping("{issue}")
+    public String subIssue(
             @AuthenticationPrincipal User user,
             @PathVariable Issue issue,
             Model model){
-        model.addAttribute("issue", issue);
-        model.addAttribute("subIssues", issue.getSubIssues());
-        return "/issueProfile";
+        model.addAttribute("superIssue", issue);
+        model.addAttribute("user", user);
+        model.addAttribute("project", issue.getProject());
+        model.addAttribute("developers", userService.findDevelopersByProject(issue.getProject()));
+        model.addAttribute("statuses", IssueStatus.values());
+        model.addAttribute("types" , IssueType.values());
+        return "/subIssue";
     }
 }

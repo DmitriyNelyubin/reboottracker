@@ -12,7 +12,7 @@
             <div class="col-sm-6">
                 <input type="text" name="name" value="<#if project??>${project.name!}</#if>"
                        class="form-control ${(nameError??)?string('is-invalid', '')}"
-                       placeholder="Issue name" />
+                       placeholder="Project name" />
                 <#if nameError??>
                     <div class="invalid-feedback">
                         ${nameError}
