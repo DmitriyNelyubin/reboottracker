@@ -53,4 +53,5 @@
         no sub issues
     </#if>
     </div>
+    <p><a href="/issueEdit/${issue.id}">Add sub issue</a></p>
 </@c.page>
