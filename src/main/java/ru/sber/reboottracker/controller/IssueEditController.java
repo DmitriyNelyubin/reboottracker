@@ -32,33 +32,29 @@ public class IssueEditController {
     //    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping("/issueEdit/")
     public String updateIssue(
-            @AuthenticationPrincipal Issue issue,
+            @AuthenticationPrincipal User user,
+            @RequestParam("issueId") Issue issue,
             @RequestParam String name,
             @RequestParam String description,
             @RequestParam("executor") User executor,
             @RequestParam("reporter") User reporter,
             @RequestParam("project") Project project,
+            @RequestParam IssueStatus status,
+            @RequestParam IssueType type,
 
             Model model
     ) {
+        issueService.updateIssue(issue, name, description, reporter, executor, status, type, project);
         model.addAttribute("project", project);
         model.addAttribute("developers", userService.findDevelopersByProject(project));
         model.addAttribute("statuses", IssueStatus.values());
         model.addAttribute("types" , IssueType.values());
         model.addAttribute("issues", issueRepo.findByProject(project));
 
-        if (!issueService.updateIssue(issue, name, description, reporter, executor, project)) {
-            model.addAttribute("nameError", "Issue exists!");
-            return "/issueEdit";
-        }
-
-        Iterable<Issue> issues = issueRepo.findAll();
-
-        model.addAttribute("issues", issues);
-        return "redirect:/issue/" + project.getId();
+        return "redirect:/issueProfile/" + issue.getId();
     }
     @GetMapping("issueEdit/{issue}")
-    public String issueEdit(
+    public String issueEditForm(
             @AuthenticationPrincipal User user,
             @PathVariable Issue issue,
             Model model){
@@ -68,6 +64,7 @@ public class IssueEditController {
         model.addAttribute("types" , IssueType.values());
         model.addAttribute("issues", issueRepo.findByProject(issue.getProject()));
         model.addAttribute("developers", userService.findDevelopersByProject(issue.getProject()));
+        model.addAttribute("subIssues", issue.getSubIssues());
         return "/issueEdit";
     }
 
@@ -77,7 +74,7 @@ public class IssueEditController {
             @PathVariable Issue issue,
             Model model){
         model.addAttribute("issue", issue);
-        model.addAttribute("subIssues", issue.getSubIssues());
+
         return "/issueProfile";
     }
 }

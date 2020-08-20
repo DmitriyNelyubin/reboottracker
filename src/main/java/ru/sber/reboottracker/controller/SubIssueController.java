@@ -31,9 +31,9 @@ public class SubIssueController {
     UserService userService;
 
     @PostMapping
-    public String addIssue(
+    public String addSubIssue(
             @AuthenticationPrincipal User user,
-            @Valid Issue issue,
+            @Valid Issue subIssue,
             BindingResult bindingResult,
             @RequestParam("executor") User executor,
             @RequestParam("reporter") User reporter,
@@ -53,15 +53,13 @@ public class SubIssueController {
             return "/subIssue";
         }
 
-        if (!issueService.addSubIssue(issue, reporter, executor, project, superIssue)) {
+        if (!issueService.addSubIssue(subIssue, reporter, executor, project, superIssue)) {
             model.addAttribute("nameError", "Issue exists!");
             return "/subIssue";
         }
 
-        Iterable<Issue> issues = issueRepo.findAll();
+        return "redirect:/issueProfile/" + superIssue.getId();
 
-        model.addAttribute("issues", issues);
-        return "redirect:/subIssue/" + issue.getId();
     }
 
     @GetMapping("{issue}")

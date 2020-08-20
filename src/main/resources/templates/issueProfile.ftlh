@@ -37,29 +37,47 @@
     <div>
         <p><b>Close date: </b><#if issue.closeDate??>${issue.closeDate}<#else> not closed </#if></p>
     </div>
-    <#if issue.superIssue??>
-    <div>
-        <p><b>Super issue: </b><a href="/issueEdit/${issue.superIssue.id}">${issue.superIssue.name}</a></p>
-    </div>
-        <#else>
+    <#if !issue.superIssue??>
         <div>
             <a href="/subIssue/${issue.id}">Add sub issue</a>
         </div>
-    </#if>
-    <div>
-    <p><b>Sub issues: </b>
-    <#if issue.hasSubIssues>
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#subIssues" aria-expanded="false" aria-controls="subIssues">Sub issues</button>
-        </p>
-        <div class="collapse multi-collapse" id="subIssues">
-            <#list  subIssues as subIssue>
-                <div>
-                    <p><a href="/issueProfile/${subIssue.id}">${subIssue.name}</a></p>
+        <div>
+        <#if issue.subIssues??>
+            <p><b>Sub issues: </b>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#subIssues" aria-expanded="false" aria-controls="subIssues">Sub issues</button>
+            </p>
+                <div class="collapse" id="subIssues">
+                                <table class="table">
+                                    <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Reporter</th>
+                                        <th scope="col">Executor</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <#list  subIssues as subIssue>
+                                            <tr>
+                                                <td>${subIssue.id!}</td>
+                                                <td>${subIssue.name!}</td>
+                                                <td>${subIssue.description!}</td>
+                                                <td>${subIssue.reporter.username!}</td>
+                                                <td><#if subIssue.executor??>subIssue.executor.username<#else>no executor</#if></td>
+                                                <td>${subIssue.status!}</td>
+                                                <td>${subIssue.type!}</td>
+                                                <td><a href="/issueProfile/${subIssue.id}">more</a></td>
+                                            </tr>
+                                    </#list>
+                                    </tbody>
+                                </table>
+                            </div>
                 </div>
-            </#list>
+            </#if>
         </div>
-    <#else>
-        no sub issues
     </#if>
-    </div>
 </@c.page>

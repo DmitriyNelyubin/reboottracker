@@ -31,34 +31,34 @@ public class IssueService {
         return true;
     }
 
-    public boolean addSubIssue(Issue issue, User reporter, User executor, Project project, Issue superIssue) {
-        Issue subIssueFromDB = getIssueFromDB(issue, project);
+    public boolean addSubIssue(Issue subIssue, User reporter, User executor, Project project, Issue superIssue) {
 
-        if(subIssueFromDB != null){
+        if(superIssue.getSubIssues().contains(subIssue)){
             return false;
         }
-        issue.setCreationDate(new Date());
-        issue.setProject(project);
-        issue.setReporter(reporter);
-        issue.setExecutor(executor);
-        issue.setSuperIssue(superIssue);
-        issue.setHasSubIssues(true);
-        superIssue.addSubIssue(issue);
 
-        issueRepo.save(issue);
+        subIssue.setCreationDate(new Date());
+        subIssue.setProject(project);
+        subIssue.setReporter(reporter);
+        subIssue.setExecutor(executor);
+        subIssue.setSuperIssue(superIssue);
+        superIssue.addSubIssue(subIssue);
+
+        issueRepo.save(subIssue);
         return true;
     }
 
-    public boolean updateIssue(Issue issue, String name, String description, User reporter, User executor, Project project) {
-        Issue issueFromDB = getIssueFromDB(issue, project);
+    public boolean updateIssue(Issue issue, String name, String description, User reporter, User executor, IssueStatus status, IssueType type, Project project) {
 
-        if(issueFromDB != null){
-            return false;
+        if(status != IssueStatus.CLOSE_ISSUE){
+            issue.setCloseDate(null);
         }
-
         issue.setName(name);
         issue.setDescription(description);
+        issue.setReporter(reporter);
         issue.setExecutor(executor);
+        issue.setStatus(status);
+        issue.setType(type);
         issueRepo.save(issue);
 
         return true;

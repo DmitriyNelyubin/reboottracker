@@ -2,15 +2,16 @@
 <#include "parts/security.ftlh">
 
 <@c.page>
-    <h2>Add sub issue</h2>
+    <h2 xmlns="http://www.w3.org/1999/html">Add sub issue</h2>
     <form action="/subIssue/" method="post">
         <input type="hidden" value="${_csrf.token}" name="_csrf">
+        <input type="hidden" name="superIssue" value="${issue.id}">
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Issue Name </label>
             <div class="col-sm-6">
                 <input type="text" name="name" value="<#if issue??>${issue.name}</#if>"
                        class="form-control ${(nameError??)?string('is-invalid', '')}"
-                       placeholder="Issue name" />
+                       placeholder="Sub issue name" />
                 <#if nameError??>
                     <div class="invalid-feedback">
                         ${nameError}
@@ -56,9 +57,16 @@
                 </div>
             </div>
         </div>
-        <p>
-            <div>
-        <p><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#developers" aria-expanded="false" aria-controls="developers">Edit executor</button></p>
+        <div>
+            <p>
+        <div>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#developers" aria-expanded="false" aria-controls="developers">Edit executor</button>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#statuses" aria-expanded="false" aria-controls="developers">Set status</button>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#type" aria-expanded="false" aria-controls="developers">Set type</button>
+        </div>
+            </p>
+                <div class="row">
+                    <div class="col">
         <div class="collapse multi-collapse" id="developers">
             <p>Developers:</p>
             <#list developers as developer>
@@ -72,12 +80,8 @@
             </#list>
         </div>
         </div>
-        </p>
-        <p>
-            <div>
-        <p><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#statuses" aria-expanded="false" aria-controls="developers">Set status</button></p>
-        <div class="collapse multi-collapse" id="statuses">
-            <div class="card card-body">
+            <div class="col">
+         <div class="collapse multi-collapse" id="statuses">
                 <#list statuses as status>
                     <div>
                         <label>
@@ -86,15 +90,10 @@
                         </label>
                     </div>
                 </#list>
-            </div>
         </div>
         </div>
-        </p>
-        <p>
-            <div>
-        <p><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#type" aria-expanded="false" aria-controls="developers">Set type</button></p>
+            <div class="col">
         <div class="collapse multi-collapse" id="type">
-            <div class="card card-body">
                 <#list types as type>
                     <div>
                         <label>
@@ -103,12 +102,9 @@
                         </label>
                     </div>
                 </#list>
-            </div>
         </div>
         </div>
-        </p>
-
-        <input type="hidden" name="_csrf" value="${_csrf.token}" />
+        </div>
         <p><button class="btn btn-primary" type="submit">Create</button></p>
     </form>
 </@c.page>

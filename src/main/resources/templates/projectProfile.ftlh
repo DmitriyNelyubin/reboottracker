@@ -58,6 +58,7 @@
                 </thead>
                 <tbody>
                 <#list issues! as issue>
+                <#if !issue.superIssue??>
                     <tr>
                         <td>${issue.id!}</td>
                         <td>${issue.name!}</td>
@@ -66,9 +67,10 @@
                         <td><#if issue.executor??>issue.executor.username<#else>no executor</#if></td>
                         <td>${issue.status!}</td>
                         <td>${issue.type!}</td>
-                        <td><#if issue.hasSubIssues>Contain><#else>no subissue</#if></td>
+                        <td><#if issue.hasSubIssues>Contain<#else>no subissue</#if></td>
                         <td><a href="/issueProfile/${issue.id}">more</a></td>
                     </tr>
+                    </#if>
                 </#list>
                 </tbody>
             </table>

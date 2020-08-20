@@ -42,7 +42,7 @@ public class Issue {
     private Set<Issue> subIssues;
     private boolean hasSubIssues;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "issue_id")
+    @JoinColumn(name = "sub_issues_id")
     private Issue superIssue;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "project_id")
@@ -136,6 +136,10 @@ public class Issue {
         return closeDate;
     }
 
+    public void setCloseDate(Date closeDate) {
+        this.closeDate = closeDate;
+    }
+
     public Set<Issue> getSubIssues() {
         return subIssues;
     }
@@ -161,6 +165,7 @@ public class Issue {
     }
 
     public void addSubIssue(Issue issue) {
+        hasSubIssues = true;
         subIssues.add(issue);
     }
 }

@@ -31,7 +31,10 @@ public class ProjectService {
 
 
 
-    public void updateProject(Project project, boolean active, User manager, User admin, List<User> developers) {
+    public void updateProject(Project project, String name, String  description, String department, boolean active, User manager, User admin, List<User> developers) {
+        project.setName(name);
+        project.setDescription(description);
+        project.setDepartment(department);
         project.setActive(active);
         project.setManager(manager);
         project.setAdmin(admin);

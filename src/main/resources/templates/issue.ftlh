@@ -126,6 +126,7 @@
                 </thead>
                 <tbody>
                 <#list issues! as issue>
+                    <#if !issue.superIssue??>
                     <tr>
                         <td>${issue.id!}</td>
                         <td>${issue.name!}</td>
@@ -139,6 +140,7 @@
                             <td><a href="/issueProfile/${issue.id}">more</a></td>
                         </#if>
                     </tr>
+                    </#if>
                 </#list>
                 </tbody>
             </table>
