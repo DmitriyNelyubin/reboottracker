@@ -53,56 +53,64 @@
                 </div>
             </div>
             <p>
-            <div>
-            <p><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#developers" aria-expanded="false" aria-controls="developers">Edit executor</button></p>
-                <div class="collapse multi-collapse" id="developers">
-                        <p>Developers:</p>
-                        <#list developers as developer>
+                <div>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#status" aria-expanded="false" aria-controls="status">Edit status</button>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#type" aria-expanded="false" aria-controls="type">Edit type</button>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#developers" aria-expanded="false" aria-controls="developers">Edit executor</button>
+                </div>
+            </p>
+
+                <div class="row">
+            <p>
+            <div class="col">
+                <div class="collapse multi-collapse" id="status">
+                    <div class="card card-body">
+                        <#list statuses as status>
                             <div>
                                 <label>
-                                    <input name="executor" type="radio"
-                                           value="${developer.id}" <#if project.developers??>${project.developers?seq_contains(developer)?string("checked", "")}</#if>>
-                                    ${developer.username}
+                                    <input name="status" type="radio" value="${status}" checked>
+                                    ${status}
                                 </label>
                             </div>
                         </#list>
+                    </div>
                 </div>
             </div>
             </p>
             <p>
-            <div>
-            <p><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#statuses" aria-expanded="false" aria-controls="developers">Set status</button></p>
-            <div class="collapse multi-collapse" id="statuses">
-                <div class="card card-body">
-                    <#list statuses as status>
+                <div class="col">
+                    <div class="collapse multi-collapse" id="type">
+                        <div class="card card-body">
+                            <#list types as type>
+                                <div>
+                                    <label>
+                                        <input name="type" type="radio" value="${type}" checked>
+                                        ${type}
+                                    </label>
+                                </div>
+                            </#list>
+                        </div>
+                    </div>
+                </div>
+            </p>
+                    <p>
+                        <div class="col">
+                            <div class="collapse multi-collapse" id="developers">
+                    <p>Developers:</p>
+                    <#list developers as developer>
                         <div>
                             <label>
-                                <input name="status" type="radio" value="${status}" checked>
-                                ${status}
+                                <input name="executor" type="radio"
+                                       value="${developer.id}" <#if project.developers??>${project.developers?seq_contains(developer)?string("checked", "")}</#if>>
+                                ${developer.username}
                             </label>
                         </div>
                     </#list>
                 </div>
-            </div>
-            </div>
-            </p>
-            <p>
-            <div>
-            <p><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#type" aria-expanded="false" aria-controls="developers">Set type</button></p>
-            <div class="collapse multi-collapse" id="type">
-                <div class="card card-body">
-                    <#list types as type>
-                        <div>
-                            <label>
-                                <input name="type" type="radio" value="${type}" checked>
-                                ${type}
-                            </label>
-                        </div>
-                    </#list>
-                </div>
-            </div>
-            </div>
-            </p>
+
+    </div>
+    </p>
+    </div>
             <input type="hidden" name="_csrf" value="${_csrf.token}" />
             <p><button class="btn btn-primary" type="submit">Create</button></p>
         </form>

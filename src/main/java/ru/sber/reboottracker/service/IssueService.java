@@ -10,6 +10,7 @@ import ru.sber.reboottracker.domain.user.User;
 import ru.sber.reboottracker.repos.IssueRepo;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class IssueService {
@@ -64,7 +65,12 @@ public class IssueService {
         return true;
     }
 
-    Issue getIssueFromDB(Issue issue, Project project){
+    private Issue getIssueFromDB(Issue issue, Project project){
         return issueRepo.findByNameAndProject(issue.getName(), project);
     }
+
+    public List<Issue> getIssuesByExecutor(User executor) {
+        return issueRepo.findByExecutor(executor);
+    }
+
 }

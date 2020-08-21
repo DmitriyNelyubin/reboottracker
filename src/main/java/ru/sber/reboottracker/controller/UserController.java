@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.reboottracker.domain.user.Role;
 import ru.sber.reboottracker.domain.user.User;
+import ru.sber.reboottracker.repos.IssueRepo;
+import ru.sber.reboottracker.service.IssueService;
 import ru.sber.reboottracker.service.UserService;
 
 import java.util.Map;
@@ -17,6 +19,9 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    IssueRepo issueRepo;
 
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
@@ -52,6 +57,7 @@ public class UserController {
     public String getProfile(Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("username", user.getUsername());
         model.addAttribute("email", user.getEmail());
+        model.addAttribute("issues", issueRepo.findByExecutor(user));
 
         return "userProfile";
     }

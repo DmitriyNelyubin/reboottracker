@@ -42,7 +42,7 @@
             <a href="/subIssue/${issue.id}">Add sub issue</a>
         </div>
         <div>
-        <#if issue.subIssues??>
+        <#if issue.hasSubIssues>
             <p><b>Sub issues: </b>
                 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#subIssues" aria-expanded="false" aria-controls="subIssues">Sub issues</button>
             </p>
@@ -67,7 +67,7 @@
                                                 <td>${subIssue.name!}</td>
                                                 <td>${subIssue.description!}</td>
                                                 <td>${subIssue.reporter.username!}</td>
-                                                <td><#if subIssue.executor??>subIssue.executor.username<#else>no executor</#if></td>
+                                                <td><#if subIssue.executor??>${subIssue.executor.username}<#else>no executor</#if></td>
                                                 <td>${subIssue.status!}</td>
                                                 <td>${subIssue.type!}</td>
                                                 <td><a href="/issueProfile/${subIssue.id}">more</a></td>

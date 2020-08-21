@@ -74,6 +74,7 @@ public class IssueEditController {
             @PathVariable Issue issue,
             Model model){
         model.addAttribute("issue", issue);
+        model.addAttribute("subIssues", issue.getSubIssues());
 
         return "/issueProfile";
     }
