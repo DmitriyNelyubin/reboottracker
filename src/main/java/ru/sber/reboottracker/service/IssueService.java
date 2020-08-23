@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.sber.reboottracker.domain.issues.Issue;
 import ru.sber.reboottracker.domain.issues.IssueStatus;
 import ru.sber.reboottracker.domain.issues.IssueType;
+import ru.sber.reboottracker.domain.issues.Sprint;
 import ru.sber.reboottracker.domain.project.Project;
 import ru.sber.reboottracker.domain.user.User;
 import ru.sber.reboottracker.repos.IssueRepo;
@@ -67,6 +68,14 @@ public class IssueService {
 
     private Issue getIssueFromDB(Issue issue, Project project){
         return issueRepo.findByNameAndProject(issue.getName(), project);
+    }
+
+    public List<Issue> getProjectBacklog(Project project){
+        return issueRepo.findByProject(project);
+    }
+
+    public List<Issue> getSprintIssue(Sprint sprint){
+        return sprint.getIssues();
     }
 
     public List<Issue> getIssuesByExecutor(User executor) {

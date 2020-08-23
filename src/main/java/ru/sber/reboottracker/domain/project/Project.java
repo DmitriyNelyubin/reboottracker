@@ -1,5 +1,6 @@
 package ru.sber.reboottracker.domain.project;
 
+import ru.sber.reboottracker.domain.issues.Issue;
 import ru.sber.reboottracker.domain.user.User;
 
 import javax.persistence.*;
@@ -29,6 +30,9 @@ public class Project {
     @JoinColumn(name = "project_id")
     private List<User> developers;
     private boolean active;
+    @OneToMany(targetEntity = Issue.class)
+    @JoinColumn(name = "project_id")
+    private List<Issue> backlog;
 
     public Project() {
     }
@@ -103,5 +107,13 @@ public class Project {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public List<Issue> getBacklog() {
+        return backlog;
+    }
+
+    public void addToBacklog(Issue issue) {
+        this.backlog.add(issue);
     }
 }

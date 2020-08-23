@@ -23,14 +23,9 @@
                     <a class="nav-link" href="/projectList">Projects</a>
                 </li>
             </#if>
-            <#if user??>
-                <li class="nav-item">
-                    <a class="nav-link" href="/issue">Issues</a>
-                </li>
-            </#if>
         </ul>
         <#if name != "unknown">
-                    <a class="nav-link" href="/user/userProfile">${name}</a>
+                    <a class="nav-link" href="/user/userProfile/${user.id}" >${name}</a>
         <@l.logout />
         </#if>
     </div>

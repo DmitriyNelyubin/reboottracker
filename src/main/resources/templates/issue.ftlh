@@ -115,7 +115,7 @@
             <p><button class="btn btn-primary" type="submit">Create</button></p>
         </form>
     </div>
-    <p><b>Issues: </b>
+    <p><b>Backlog: </b>
     <#if issues?has_content>
         </p>
             <table class="table">
@@ -152,6 +152,9 @@
                 </#list>
                 </tbody>
             </table>
+        <div>
+            <a href="/sprint/${project.id}">Add sprint</a>
+        </div>
     <#else>
         no issues
     </#if>

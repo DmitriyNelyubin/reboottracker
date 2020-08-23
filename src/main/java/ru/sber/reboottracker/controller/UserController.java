@@ -21,7 +21,7 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    IssueRepo issueRepo;
+    private IssueService issueService;
 
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
@@ -53,11 +53,14 @@ public class UserController {
         return "redirect:/user";
     }
 
-    @GetMapping("userProfile")
-    public String getProfile(Model model, @AuthenticationPrincipal User user) {
+    @GetMapping("userProfile/{user}")
+    public String getProfile(
+            Model model,
+            @PathVariable User user)
+    {
         model.addAttribute("username", user.getUsername());
         model.addAttribute("email", user.getEmail());
-        model.addAttribute("issues", issueRepo.findByExecutor(user));
+        model.addAttribute("issues", issueService.getIssuesByExecutor(user));
 
         return "userProfile";
     }

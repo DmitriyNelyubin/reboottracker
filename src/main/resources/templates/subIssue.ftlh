@@ -57,8 +57,7 @@
                 </div>
             </div>
         </div>
-        <div>
-            <p>
+        <p>
         <div>
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#developers" aria-expanded="false" aria-controls="developers">Edit executor</button>
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#statuses" aria-expanded="false" aria-controls="developers">Set status</button>

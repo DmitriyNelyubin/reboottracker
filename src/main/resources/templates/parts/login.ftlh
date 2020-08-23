@@ -67,7 +67,7 @@
         <div class="form-group row">
             <div class="col-sm-2">
                 <input type="hidden" name="_csrf" value="${_csrf.token}" />
-                <button class="btn btn-primary" type="submit"><#if isRegisterForm>Create<#else>Sign In</#if></button>
+                <button class="btn btn-primary" type="submit"><#if isRegisterForm>Create<#else>Log in</#if></button>
             </div>
             <div class="col-sm-6">
                 <#if !isRegisterForm><a href="/registration">Add new user</a></#if>
@@ -79,6 +79,6 @@
 <#macro logout>
     <form action="/logout" method="post">
         <input type="hidden" name="_csrf" value="${_csrf.token}" />
-        <button class="btn btn-primary" type="submit">Sign Out</button>
+        <button class="btn btn-primary" type="submit">Log out</button>
     </form>
 </#macro>

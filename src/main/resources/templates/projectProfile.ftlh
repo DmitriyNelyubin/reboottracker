@@ -39,7 +39,7 @@
         </#if>
     <p><b>Issues: </b>
     <#if issues?has_content>
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#issues" aria-expanded="false" aria-controls="issues">Project issues</button>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#issues" aria-expanded="false" aria-controls="issues">Backlog</button>
         </p>
         <div class="collapse multi-collapse" id="issues">
             <table class="table">
@@ -64,7 +64,7 @@
                         <td>${issue.name!}</td>
                         <td>${issue.description!}</td>
                         <td>${issue.reporter.username!}</td>
-                        <td><#if issue.executor??>issue.executor.username<#else>no executor</#if></td>
+                        <td><#if issue.executor??>${issue.executor.username}<#else>no executor</#if></td>
                         <td>${issue.status!}</td>
                         <td>${issue.type!}</td>
                         <td><#if issue.hasSubIssues>Contain<#else>no subissue</#if></td>

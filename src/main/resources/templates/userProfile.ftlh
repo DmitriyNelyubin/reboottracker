@@ -22,10 +22,8 @@
         <button class="btn btn-primary" type="submit">Save</button>
         </p>
     </form>
-    <#if issues??>
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#issues" aria-expanded="false" aria-controls="issues">Issues</button>
-    </p>
-    <div class="collapse" id="subIssues">
+    <#if issues?hasContent>
+        </p>
         <table class="table">
             <thead class="thead-light">
             <tr>
@@ -36,25 +34,29 @@
                 <th scope="col">Executor</th>
                 <th scope="col">Status</th>
                 <th scope="col">Type</th>
+                <th scope="col">Sub issues</th>
                 <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
-            <#list  issues as issue>
-                <tr>
-                    <td>${issue.id!}</td>
-                    <td>${issue.name!}</td>
-                    <td>${issue.description!}</td>
-                    <td>${issue.reporter.username!}</td>
-                    <td><#if issue.executor??>issue.executor.username<#else>no executor</#if></td>
-                    <td>${issue.status!}</td>
-                    <td>${issue.type!}</td>
-                    <td><a href="/issueProfile/${issue.id}">more</a></td>
-                </tr>
+            <#list issues! as issue>
+                <#if !issue.superIssue??>
+                    <tr>
+                        <td>${issue.id!}</td>
+                        <td>${issue.name!}</td>
+                        <td>${issue.description!}</td>
+                        <td>${issue.reporter.username!}</td>
+                        <td><#if issue.executor??>${issue.executor.username}<#else>no executor</#if></td>
+                        <td>${issue.status!}</td>
+                        <td>${issue.type!}</td>
+                        <td><#if issue.hasSubIssues>Contain<#else>no subissue</#if></td>
+                            <td><a href="/issueProfile/${issue.id}">more</a></td>
+                    </tr>
+                </#if>
             </#list>
             </tbody>
         </table>
-    </div>
-    </div>
+    <#else>
+        no issues
     </#if>
 </@c.page>
