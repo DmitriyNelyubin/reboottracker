@@ -86,6 +86,14 @@ public class Sprint implements IssueLog{
         this.issues = issues;
     }
 
+    public void addIssue(List<Issue> issues) {
+        this.issues.addAll(issues);
+    }
+
+    public void removeIssue(List<Issue> issues){
+        this.issues.removeAll(issues);
+    }
+
     public Date getStartDate() {
         return startDate;
     }

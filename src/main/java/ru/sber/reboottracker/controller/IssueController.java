@@ -41,7 +41,7 @@ public class IssueController {
             @AuthenticationPrincipal User user,
             @Valid Issue issue,
             BindingResult bindingResult,
-            @RequestParam("executor") User executor,
+            @RequestParam(value = "executor", required = false) User executor,
             @RequestParam("reporter") User reporter,
             @RequestParam("project") Project project,
 

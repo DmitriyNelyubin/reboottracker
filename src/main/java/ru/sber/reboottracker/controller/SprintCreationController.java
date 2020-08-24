@@ -15,8 +15,8 @@ import ru.sber.reboottracker.service.IssueService;
 import ru.sber.reboottracker.service.SprintService;
 
 import javax.validation.Valid;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -40,19 +40,29 @@ public class SprintCreationController {
             @Valid Sprint sprint,
             BindingResult bindingResult,
             @RequestParam("project") Project project,
-            @RequestParam("sprintIssues") List<Issue>  sprintIssues,
+            @RequestParam(value = "sprintIssues", required = false) List<Issue>  sprintIssues,
 
             Model model
     ) {
         model.addAttribute("project", project);
         model.addAttribute("backlog", issueService.getProjectBacklog(project));
-        model.addAttribute("currentDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())).toString();
+        if(sprint.getStartDate() != null){
+            model.addAttribute("startDate", new SimpleDateFormat("yyyy-MM-dd").format(sprint.getStartDate()));
+        }
+        if(sprint.getFinishDate() !=null){
+            model.addAttribute("currentDate", new SimpleDateFormat("yyyy-MM-dd").format(sprint.getFinishDate()));
+        }
+        model.addAttribute("currentDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errorsMap);
             return "/sprint";
         }
+        if(sprintIssues == null) {
+            sprintIssues = Collections.emptyList();
+        }
+
         sprintService.addSprint(sprint, project, sprintIssues);
 
         return "redirect:/sprint/" + project.getId();

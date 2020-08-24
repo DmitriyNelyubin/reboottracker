@@ -6,10 +6,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.sber.reboottracker.domain.project.Project;
 import ru.sber.reboottracker.domain.user.User;
-import ru.sber.reboottracker.repos.IssueRepo;
 import ru.sber.reboottracker.service.IssueService;
 import ru.sber.reboottracker.service.ProjectService;
 import ru.sber.reboottracker.service.UserService;
@@ -95,7 +97,7 @@ public class ProjectEditController {
                                 @RequestParam boolean active,
                                 @RequestParam ("manager")User manager,
                                 @RequestParam ("admin")User admin,
-                                @RequestParam(required = false) List<User> developer,
+                                @RequestParam List<User> developer,
                                 Model model
     ) {
         projectService.updateProject(project, name, description, department, active, manager, admin, developer);

@@ -27,6 +27,9 @@ public class IssueService {
         issue.setCreationDate(new Date());
         issue.setProject(project);
         issue.setReporter(reporter);
+        if(executor == null) {
+            issue.setExecutor(null);
+        }
         issue.setExecutor(executor);
         project.addToBacklog(issue);
         issueRepo.save(issue);

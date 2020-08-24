@@ -49,7 +49,7 @@
                 <label for="creation-date-input" class="col-sm-2 col-form-label">Start date</label>
                 <div class="col-sm-6">
                     <input class="form-control ${(startDateError??)?string('is-invalid', '')}" type="date" name="startDate"
-                           value="${currentDate}" id="creation-date-input"/>
+                           value="<#if sprint??>${startDate}<#else>${currentDate}</#if>" id="creation-date-input"/>
                     <#if startDateError??>
                         <div class="invalid-feedback">
                             ${startDateError}
@@ -61,7 +61,7 @@
                 <label for="close-date-input" class="col-sm-2 col-form-label">Finish date</label>
                 <div class="col-sm-6">
                     <input class="form-control ${(finishDateError??)?string('is-invalid', '')}" type="date" name="finishDate"
-                           value="${currentDate}" id="close-date-input"/>
+                           value="<#if sprint??>${finishDate}<#else>${currentDate}</#if>" id="close-date-input"/>
                     <#if finishDateError??>
                         <div class="invalid-feedback">
                             ${finishDateError}

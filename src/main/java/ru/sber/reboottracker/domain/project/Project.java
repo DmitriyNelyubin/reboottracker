@@ -116,6 +116,10 @@ public class Project {
         this.backlog.add(issue);
     }
 
+    public void addToBacklog(List<Issue> issues) {
+        this.backlog.addAll(issues);
+    }
+
     public void removeIssue(Issue issue){
         backlog.remove(issue);
     }

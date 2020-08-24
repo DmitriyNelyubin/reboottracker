@@ -1,7 +1,7 @@
 <#import "parts/common.ftlh" as c>
 
 <@c.page>
-    <a href="/sprintProfile/"><h2>${sprint.name}</h2></a>
+    <a href="/sprintEdit/${sprint.id}"><h2>${sprint.name}</h2></a>
     <div>
         <p><b>Sprint id: </b>${sprint.id}</p>
     </div>
