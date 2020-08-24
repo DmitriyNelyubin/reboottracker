@@ -7,7 +7,7 @@
         <input type="hidden" value="${_csrf.token}" name="_csrf">
         <input type="hidden" name="superIssue" value="${issue.id}">
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Issue Name </label>
+            <label class="col-sm-2 col-form-label">Sub issue Name </label>
             <div class="col-sm-6">
                 <input type="text" name="name" value="<#if issue??>${issue.name}</#if>"
                        class="form-control ${(nameError??)?string('is-invalid', '')}"

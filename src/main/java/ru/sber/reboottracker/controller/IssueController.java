@@ -14,6 +14,7 @@ import ru.sber.reboottracker.domain.project.Project;
 import ru.sber.reboottracker.domain.user.User;
 import ru.sber.reboottracker.repos.IssueRepo;
 import ru.sber.reboottracker.service.IssueService;
+import ru.sber.reboottracker.service.SprintService;
 import ru.sber.reboottracker.service.UserService;
 
 import javax.validation.Valid;
@@ -31,6 +32,9 @@ public class IssueController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    SprintService sprintService;
+
 //    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping
     public String addIssue(
@@ -47,7 +51,7 @@ public class IssueController {
         model.addAttribute("developers", userService.findDevelopersByProject(project));
         model.addAttribute("statuses", IssueStatus.values());
         model.addAttribute("types" , IssueType.values());
-        model.addAttribute("issues", issueRepo.findByProject(project));
+        model.addAttribute("issues", issueService.getProjectBacklog(project));
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
@@ -71,12 +75,13 @@ public class IssueController {
             @AuthenticationPrincipal User user,
             @PathVariable Project project,
             Model model){
-        model.addAttribute("issues", issueRepo.findByProject(project));
+        model.addAttribute("issues", issueService.getProjectBacklog(project));
         model.addAttribute("user", user);
         model.addAttribute("project", project);
         model.addAttribute("developers", userService.findDevelopersByProject(project));
         model.addAttribute("statuses", IssueStatus.values());
         model.addAttribute("types" , IssueType.values());
+        model.addAttribute("sprints", sprintService.getProjectSprints(project));
         return "/issue";
     }
 }

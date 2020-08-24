@@ -46,18 +46,16 @@ public class SprintCreationController {
     ) {
         model.addAttribute("project", project);
         model.addAttribute("backlog", issueService.getProjectBacklog(project));
+        model.addAttribute("currentDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())).toString();
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errorsMap);
             return "/sprint";
         }
+        sprintService.addSprint(sprint, project, sprintIssues);
 
-        sprint.setProject(project);
-        sprint.setIssues(sprintIssues);
-        sprintRepo.save(sprint);
-
-        return "redirect:/sprint/" + sprint.getId();
+        return "redirect:/sprint/" + project.getId();
     }
 
     @GetMapping("{project}")

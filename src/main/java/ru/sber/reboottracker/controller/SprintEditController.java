@@ -3,12 +3,10 @@ package ru.sber.reboottracker.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.sber.reboottracker.domain.issues.Issue;
 import ru.sber.reboottracker.domain.issues.IssueStatus;
 import ru.sber.reboottracker.domain.issues.IssueType;
@@ -21,6 +19,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
+@Controller
+@RequestMapping("/sprintProfile")
 public class SprintEditController {
 
     @Autowired
@@ -64,7 +64,7 @@ public class SprintEditController {
 //        return "/issueEdit";
 //    }
 
-    @GetMapping("sprintProfile/{sprint}")
+    @GetMapping("{sprint}")
     public String sprintProfile(
             @AuthenticationPrincipal User user,
             @PathVariable Sprint sprint,

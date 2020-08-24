@@ -20,9 +20,8 @@
     <div>
         <p><b>Finish date: </b>${sprint.finishDate}</p>
     </div>
-    <p><b>Issues: </b>
     <#if issues?has_content>
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#issues" aria-expanded="false" aria-controls="issues">Backlog</button>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#issues" aria-expanded="false" aria-controls="issues">Issues</button>
         </p>
         <div class="collapse multi-collapse" id="issues">
             <table class="table">

@@ -2,6 +2,7 @@
 <#include "parts/security.ftlh">
 
 <@c.page>
+    <#if backlog?has_content>
     <p>
         <a class="btn btn-primary" data-toggle="collapse" href="#createSprint" role="button" aria-expanded="false" aria-controls="createSprint">
             Add new sprint
@@ -122,6 +123,9 @@
     <p><button class="btn btn-primary" type="submit">Create</button></p>
     </form>
     </div>
+    <#else>
+    <h3><b>Project backlog empty</b></h3>
+    </#if>
     <#if sprints?has_content>
         <table class="table">
             <thead class="thead-light">

@@ -140,4 +140,19 @@
         </table>
     </div>
     </div>
+    <#if sprints?has_content>
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Project</th>
+                <th scope="col">Start date</th>
+                <th scope="col">Finish date</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+
 </#macro>

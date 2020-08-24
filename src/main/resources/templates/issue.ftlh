@@ -107,7 +107,6 @@
                         </div>
                     </#list>
                 </div>
-
     </div>
     </p>
     </div>
@@ -158,4 +157,40 @@
     <#else>
         no issues
     </#if>
+    <p><b>Sprints: </b>
+    <#if sprints?has_content>
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Project</th>
+                <th scope="col">Start date</th>
+                <th scope="col">Finish date</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+    <#list sprints! as sprint>
+                <div>
+                    <label>
+                        <tr>
+                            <td>${sprint.id!}</td>
+                            <td>${sprint.name!}</td>
+                            <td>${sprint.description!}</td>
+                            <td>${sprint.project.name!}</td>
+                            <td>${sprint.startDate!}</td>
+                            <td>${sprint.finishDate!}</td>
+                            <td><a href="/sprintProfile/${sprint.id}">more</a></td>
+                        </tr>
+                    </label>
+                </div>
+            </#list>
+            </tbody>
+        </table>
+    <#else>
+        no sprints
+    </#if>
+    </p>
 </@c.page>

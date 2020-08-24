@@ -5,9 +5,8 @@ import ru.sber.reboottracker.domain.user.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -31,7 +30,6 @@ public class Project {
     private List<User> developers;
     private boolean active;
     @OneToMany(targetEntity = Issue.class)
-    @JoinColumn(name = "project_id")
     private List<Issue> backlog;
 
     public Project() {
@@ -41,6 +39,7 @@ public class Project {
         this.name = name;
         this.description = description;
         this.department = department;
+        this.backlog = Collections.emptyList();
     }
 
     public Long getId() {
@@ -115,5 +114,13 @@ public class Project {
 
     public void addToBacklog(Issue issue) {
         this.backlog.add(issue);
+    }
+
+    public void removeIssue(Issue issue){
+        backlog.remove(issue);
+    }
+
+    public void removeIssue(List<Issue> issues){
+        backlog.removeAll(issues);
     }
 }

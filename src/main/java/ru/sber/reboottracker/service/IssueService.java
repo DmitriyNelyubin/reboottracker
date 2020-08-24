@@ -28,8 +28,9 @@ public class IssueService {
         issue.setProject(project);
         issue.setReporter(reporter);
         issue.setExecutor(executor);
-
+        project.addToBacklog(issue);
         issueRepo.save(issue);
+
         return true;
     }
 
@@ -71,7 +72,7 @@ public class IssueService {
     }
 
     public List<Issue> getProjectBacklog(Project project){
-        return issueRepo.findByProject(project);
+        return project.getBacklog();
     }
 
     public List<Issue> getSprintIssue(Sprint sprint){
