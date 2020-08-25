@@ -1,4 +1,5 @@
 <#import "parts/common.ftlh" as c>
+    <#import "parts/issue.ftlh" as i>
 <#include "parts/security.ftlh">
 
 <@c.page>
@@ -77,20 +78,7 @@
             <div class="collapse multi-collapse" id="backlog">
             <#if backlog?has_content>
                 <table class="table">
-                    <thead class="thead-light">
-                    <tr>
-                        <th scope="col">To sprint</th>
-                        <th scope="col">ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Reporter</th>
-                        <th scope="col">Executor</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Sub issues</th>
-                        <th scope="col"></th>
-                    </tr>
-                    </thead>
+                    <@i.issueTHead true/>
                     <tbody>
                     <#list backlog! as issue>
                         <#if !issue.superIssue??>

@@ -70,7 +70,7 @@ public class ProjectEditController {
             Model model) {
         model.addAttribute("project", project);
         model.addAttribute("developers", project.getDevelopers());
-        model.addAttribute("issues", issueService.getProjectBacklog(project));
+        model.addAttribute("backlog", issueService.getProjectBacklog(project));
 
         return "projectProfile";
     }

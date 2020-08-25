@@ -1,4 +1,5 @@
 <#import "parts/common.ftlh" as c>
+    <#import "parts/issue.ftlh" as i>
 <#include "parts/security.ftlh">
 
 <@c.page>
@@ -113,18 +114,7 @@
         </p>
         <div class="collapse" id="subIssues">
             <table class="table">
-                <thead class="thead-light">
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Reporter</th>
-                    <th scope="col">Executor</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Type</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
+                <@i.issueTHead false/>
                 <tbody>
                 <#list  subIssues as subIssue>
                     <tr>
@@ -132,7 +122,8 @@
                         <td>${subIssue.name!}</td>
                         <td>${subIssue.description!}</td>
                         <td>${subIssue.reporter.username!}</td>
-                        <td><#if subIssue.executor??>subIssue.executor.username<#else>no executor</#if></td>
+                        <td><#if subIssue.executor??>issue.executor.username<#else>no executor</#if></td>
+                        <td>${subIssue.creationDate}</td>
                         <td>${subIssue.status!}</td>
                         <td>${subIssue.type!}</td>
                         <td><a href="/issueProfile/${subIssue.id}">more</a></td>

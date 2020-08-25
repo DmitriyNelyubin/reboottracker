@@ -51,7 +51,7 @@ public class IssueController {
         model.addAttribute("developers", userService.findDevelopersByProject(project));
         model.addAttribute("statuses", IssueStatus.values());
         model.addAttribute("types" , IssueType.values());
-        model.addAttribute("issues", issueService.getProjectBacklog(project));
+        model.addAttribute("backlog", issueService.getProjectBacklog(project));
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
@@ -66,7 +66,7 @@ public class IssueController {
 
         Iterable<Issue> issues = issueRepo.findAll();
 
-        model.addAttribute("issues", issues);
+        model.addAttribute("backlog", issues);
         return "redirect:/issue/" + project.getId();
     }
 
@@ -75,7 +75,7 @@ public class IssueController {
             @AuthenticationPrincipal User user,
             @PathVariable Project project,
             Model model){
-        model.addAttribute("issues", issueService.getProjectBacklog(project));
+        model.addAttribute("backlog", issueService.getProjectBacklog(project));
         model.addAttribute("user", user);
         model.addAttribute("project", project);
         model.addAttribute("developers", userService.findDevelopersByProject(project));

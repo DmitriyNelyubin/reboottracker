@@ -1,4 +1,5 @@
 <#import "parts/common.ftlh" as c>
+    <#import "parts/issue.ftlh" as i>
 
 <@c.page>
     <a href="/projectEdit/${project.id}"><h2>${project.name}</h2></a>
@@ -38,41 +39,13 @@
             no developers
         </#if>
     <p><b>Issues: </b>
-    <#if issues?has_content>
+    <#if backlog?has_content>
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#issues" aria-expanded="false" aria-controls="issues">Backlog</button>
         </p>
         <div class="collapse multi-collapse" id="issues">
             <table class="table">
-                <thead class="thead-light">
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Reporter</th>
-                    <th scope="col">Executor</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Sub issues</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <#list issues! as issue>
-                <#if !issue.superIssue??>
-                    <tr>
-                        <td>${issue.id!}</td>
-                        <td>${issue.name!}</td>
-                        <td>${issue.description!}</td>
-                        <td>${issue.reporter.username!}</td>
-                        <td><#if issue.executor??>${issue.executor.username}<#else>no executor</#if></td>
-                        <td>${issue.status!}</td>
-                        <td>${issue.type!}</td>
-                        <td><#if issue.hasSubIssues>Contain<#else>no subissue</#if></td>
-                        <td><a href="/issueProfile/${issue.id}">more</a></td>
-                    </tr>
-                    </#if>
-                </#list>
-                </tbody>
+                <@i.issueTHead />
+                <@i.issueTBody />
             </table>
         </div>
     <#else>

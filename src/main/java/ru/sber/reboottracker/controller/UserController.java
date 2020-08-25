@@ -60,7 +60,7 @@ public class UserController {
     {
         model.addAttribute("username", user.getUsername());
         model.addAttribute("email", user.getEmail());
-        model.addAttribute("issues", issueService.getIssuesByExecutor(user));
+        model.addAttribute("backlog", issueService.getIssuesByExecutor(user));
 
         return "userProfile";
     }

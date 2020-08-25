@@ -1,4 +1,5 @@
 <#import "parts/common.ftlh" as c>
+    <#import "parts/issue.ftlh" as i>
 
 <@c.page>
     <a href="/issueEdit/${issue.id}"><h2>${issue.name}</h2></a>
@@ -48,18 +49,7 @@
             </p>
                 <div class="collapse" id="subIssues">
                                 <table class="table">
-                                    <thead class="thead-light">
-                                    <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Description</th>
-                                        <th scope="col">Reporter</th>
-                                        <th scope="col">Executor</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Type</th>
-                                        <th scope="col"></th>
-                                    </tr>
-                                    </thead>
+                                    <@i.issueTHead false/>
                                     <tbody>
                                     <#list  subIssues as subIssue>
                                             <tr>

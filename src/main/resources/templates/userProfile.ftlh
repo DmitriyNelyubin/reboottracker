@@ -22,39 +22,11 @@
         <button class="btn btn-primary" type="submit">Save</button>
         </p>
     </form>
-    <#if issues?hasContent>
+    <#if backlog?hasContent>
         </p>
         <table class="table">
-            <thead class="thead-light">
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Description</th>
-                <th scope="col">Reporter</th>
-                <th scope="col">Executor</th>
-                <th scope="col">Status</th>
-                <th scope="col">Type</th>
-                <th scope="col">Sub issues</th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <#list issues! as issue>
-                <#if !issue.superIssue??>
-                    <tr>
-                        <td>${issue.id!}</td>
-                        <td>${issue.name!}</td>
-                        <td>${issue.description!}</td>
-                        <td>${issue.reporter.username!}</td>
-                        <td><#if issue.executor??>${issue.executor.username}<#else>no executor</#if></td>
-                        <td>${issue.status!}</td>
-                        <td>${issue.type!}</td>
-                        <td><#if issue.hasSubIssues>Contain<#else>no subissue</#if></td>
-                            <td><a href="/issueProfile/${issue.id}">more</a></td>
-                    </tr>
-                </#if>
-            </#list>
-            </tbody>
+            <@i.issueTHead false/>
+            <@i.issueTBody false/>
         </table>
     <#else>
         no issues
