@@ -1,5 +1,6 @@
 <#include "parts/security.ftlh">
 <#import "parts/common.ftlh" as c>
+<#import "parts/project.ftlh" as p>
 
 <@c.page>
     <#if isAdmin>
@@ -13,6 +14,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Project Name </label>
                     <div class="col-sm-6">
+                        <input type="hidden" name="_csrf" value="${_csrf.token}" />
                         <input type="text" name="name" class="form-control ${(nameError??)?string('is-invalid', '')}"
                                placeholder="Project name" />
                         <#if nameError??>
@@ -48,7 +50,6 @@
                         </#if>
                     </div>
                 </div>
-                <input type="hidden" name="_csrf" value="${_csrf.token}" />
                 <button class="btn btn-primary" type="submit">Create</button>
             </form>
         </div>

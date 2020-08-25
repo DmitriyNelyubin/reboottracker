@@ -10,6 +10,9 @@ import ru.sber.reboottracker.domain.project.Project;
 import ru.sber.reboottracker.domain.user.User;
 import ru.sber.reboottracker.repos.IssueRepo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -86,4 +89,58 @@ public class IssueService {
         return issueRepo.findByExecutor(executor);
     }
 
+    public List<Issue> issueFilter(List<Issue> issues, String filterName, String filterDescription, User reporter, User executor, String creationDate, IssueStatus status, IssueType type, String hasSubIssue) {
+
+        if(issues != null && filterName != null && !filterName.equals("")) {
+            issues.removeIf(issue -> !issue.getName().contains(filterName));
+        }
+
+        if(issues != null && filterDescription != null && !filterDescription.equals("")) {
+            issues.removeIf(issue -> !issue.getDescription().contains(filterDescription));
+        }
+
+        if(issues != null && reporter != null) {
+            issues.removeIf(issue -> !issue.getReporter().equals(reporter));
+        }
+
+        if(issues != null && executor != null) {
+            issues.removeIf(issue -> !issue.getExecutor().equals(executor));
+        }
+
+        if(issues != null && creationDate != null && !creationDate.equals("")) {
+            issues.removeIf(issue -> !issue.getCreationDate().equals(parseDate(creationDate)));
+        }
+
+        if(issues != null && status != null) {
+            issues.removeIf(issue -> !(issue.getStatus() == status));
+        }
+
+        if(issues != null && type != null) {
+            issues.removeIf(issue -> !(issue.getType() == type));
+        }
+
+        if(issues != null && hasSubIssue != null && hasSubIssue != "") {
+            issues.removeIf(issue -> !(issue.isHasSubIssues() == parseBool(hasSubIssue)));
+        }
+
+        return issues;
+    }
+
+    private Date parseDate(String date){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date parsedDate = new Date();
+        try {
+            parsedDate = simpleDateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return parsedDate;
+    }
+
+    private boolean parseBool(String bool){
+        if(bool.equals("true")){
+            return true;
+        }
+        return false;
+    }
 }

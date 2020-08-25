@@ -108,7 +108,7 @@
         </div>
     </form>
     <div>
-    <#if issue.subIssues??>
+    <#if subIssues?has_content>
         <p><b>Sub issues: </b>
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#subIssues" aria-expanded="false" aria-controls="subIssues">Sub issues</button>
         </p>

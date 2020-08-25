@@ -79,7 +79,7 @@ public class SprintEditController {
             @PathVariable Sprint sprint,
             Model model){
         model.addAttribute("sprint", sprint);
-        model.addAttribute("issues", sprintService.getSprintIssues(sprint));
+        model.addAttribute("backlog", sprintService.getSprintIssues(sprint));
 
         return "/sprintProfile";
     }

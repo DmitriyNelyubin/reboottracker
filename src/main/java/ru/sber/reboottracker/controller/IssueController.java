@@ -18,6 +18,9 @@ import ru.sber.reboottracker.service.SprintService;
 import ru.sber.reboottracker.service.UserService;
 
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -74,14 +77,26 @@ public class IssueController {
     public String issueList(
             @AuthenticationPrincipal User user,
             @PathVariable Project project,
+            @RequestParam String filterName,
+            @RequestParam String filterDescription,
+            @RequestParam("filterReporter") User reporter,
+            @RequestParam("filterExecutor") User executor,
+            @RequestParam("filterDate") String creationDate,
+            @RequestParam("filterStatus") IssueStatus status,
+            @RequestParam("filterType") IssueType type,
+            @RequestParam("filterSubIssues") String hasSubIssue,
             Model model){
-        model.addAttribute("backlog", issueService.getProjectBacklog(project));
+        List<Issue> issues = issueService.getProjectBacklog(project);
+        issues = issueService.issueFilter(issues, filterName, filterDescription, reporter, executor, creationDate, status, type, hasSubIssue);
+        model.addAttribute("backlog", issues);
         model.addAttribute("user", user);
         model.addAttribute("project", project);
         model.addAttribute("developers", userService.findDevelopersByProject(project));
+        model.addAttribute("users", userService.findAll());
         model.addAttribute("statuses", IssueStatus.values());
         model.addAttribute("types" , IssueType.values());
         model.addAttribute("sprints", sprintService.getProjectSprints(project));
+        model.addAttribute("currentDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         return "/issue";
     }
 }

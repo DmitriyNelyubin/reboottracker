@@ -3,10 +3,21 @@
 <#include "parts/security.ftlh">
 
 <@c.page>
+    <p><b>Backlog: </b>
+        </p>
+            <table class="table">
+                <@i.issueTHead false/>
+                <@i.issueFilter "/issue/${project.id}"/>
+
+                <@i.issueTBody false/>
+            </table>
+    <#if !backlog?has_content>
+        <p><h3>no issues</h3></p>
+    </#if>
     <p>
-        <a class="btn btn-primary" data-toggle="collapse" href="#createIssue" role="button" aria-expanded="false" aria-controls="collapseExample">
-            Add new issue
-        </a>
+    <a class="btn btn-primary" data-toggle="collapse" href="#createIssue" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Add new issue
+    </a>
     </p>
     <div class="collapse <#if issue??>show</#if>" id="createIssue">
         <form action="/issue/" method="post">
@@ -40,7 +51,7 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Reporter</label>
                 <div class="col-sm-6">
-                           ${user.username}
+                    ${user.username}
                     <input type="hidden" value="${user.id}" name="reporter">
                 </div>
             </div>
@@ -54,31 +65,31 @@
                 </div>
             </div>
             <p>
-                <div>
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#status" aria-expanded="false" aria-controls="status">Edit status</button>
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#type" aria-expanded="false" aria-controls="type">Edit type</button>
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#developers" aria-expanded="false" aria-controls="developers">Edit executor</button>
-                </div>
-            </p>
-
-                <div class="row">
-            <p>
-            <div class="col">
-                <div class="collapse multi-collapse" id="status">
-                    <div class="card card-body">
-                        <#list statuses as status>
-                            <div>
-                                <label>
-                                    <input name="status" type="radio" value="${status}" checked>
-                                    ${status}
-                                </label>
-                            </div>
-                        </#list>
-                    </div>
-                </div>
+            <div>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#status" aria-expanded="false" aria-controls="status">Edit status</button>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#type" aria-expanded="false" aria-controls="type">Edit type</button>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#developers" aria-expanded="false" aria-controls="developers">Edit executor</button>
             </div>
             </p>
-            <p>
+
+            <div class="row">
+                <p>
+                <div class="col">
+                    <div class="collapse multi-collapse" id="status">
+                        <div class="card card-body">
+                            <#list statuses as status>
+                                <div>
+                                    <label>
+                                        <input name="status" type="radio" value="${status}" checked>
+                                        ${status}
+                                    </label>
+                                </div>
+                            </#list>
+                        </div>
+                    </div>
+                </div>
+                </p>
+                <p>
                 <div class="col">
                     <div class="collapse multi-collapse" id="type">
                         <div class="card card-body">
@@ -93,41 +104,31 @@
                         </div>
                     </div>
                 </div>
-            </p>
-                    <p>
-                        <div class="col">
-                            <div class="collapse multi-collapse" id="developers">
-                    <p>Developers:</p>
-                    <#list developers as developer>
-                        <div>
-                            <label>
-                                <input name="executor" type="radio"
-                                       value="${developer.id}" <#if project.developers??>${project.developers?seq_contains(developer)?string("checked", "")}</#if>>
-                                ${developer.username}
-                            </label>
-                        </div>
-                    </#list>
-                </div>
+                </p>
+                <p>
+                    <div class="col">
+                        <div class="collapse multi-collapse" id="developers">
+                <p>Developers:</p>
+                <#list developers as developer>
+                    <div>
+                        <label>
+                            <input name="executor" type="radio"
+                                   value="${developer.id}" <#if project.developers??>${project.developers?seq_contains(developer)?string("checked", "")}</#if>>
+                            ${developer.username}
+                        </label>
+                    </div>
+                </#list>
+            </div>
     </div>
     </p>
     </div>
-            <input type="hidden" name="_csrf" value="${_csrf.token}" />
-            <p><button class="btn btn-primary" type="submit">Create</button></p>
-        </form>
+    <input type="hidden" name="_csrf" value="${_csrf.token}" />
+    <p><button class="btn btn-primary" type="submit">Create</button></p>
+    </form>
     </div>
-    <p><b>Backlog: </b>
-    <#if backlog?has_content>
-        </p>
-            <table class="table">
-                <@i.issueTHead false/>
-                <@i.issueTBody false/>
-            </table>
-        <div>
-            <a href="/sprint/${project.id}">Add sprint</a>
-        </div>
-    <#else>
-        no issues
-    </#if>
+    <div>
+        <a href="/sprint/${project.id}">Add sprint</a>
+    </div>
     <p><b>Sprints: </b>
     <#if sprints?has_content>
         <table class="table">

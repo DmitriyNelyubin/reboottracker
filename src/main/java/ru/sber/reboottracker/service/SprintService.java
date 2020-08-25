@@ -71,7 +71,7 @@ public class SprintService{
         }
 
         sprintRepo.save(sprint);
-        projectRepo.save(project);
+
     }
 
     private Date parseDate(String date){

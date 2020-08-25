@@ -21,29 +21,13 @@
     <div>
         <p><b>Finish date: </b>${sprint.finishDate}</p>
     </div>
-    <#if issues?has_content>
+    <#if backlog?has_content>
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#issues" aria-expanded="false" aria-controls="issues">Issues</button>
         </p>
         <div class="collapse multi-collapse" id="issues">
             <table class="table">
                 <@i.issueTHead false/>
-                <tbody>
-                <#list issues! as issue>
-                    <#if !issue.superIssue??>
-                        <tr>
-                            <td>${issue.id!}</td>
-                            <td>${issue.name!}</td>
-                            <td>${issue.description!}</td>
-                            <td>${issue.reporter.username!}</td>
-                            <td><#if issue.executor??>${issue.executor.username}<#else>no executor</#if></td>
-                            <td>${issue.status!}</td>
-                            <td>${issue.type!}</td>
-                            <td><#if issue.hasSubIssues>Contain<#else>no subissue</#if></td>
-                            <td><a href="/issueProfile/${issue.id}">more</a></td>
-                        </tr>
-                    </#if>
-                </#list>
-                </tbody>
+                <@i.issueTBody false/>
             </table>
         </div>
     <#else>

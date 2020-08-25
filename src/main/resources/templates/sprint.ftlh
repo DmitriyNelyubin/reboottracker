@@ -92,6 +92,7 @@
                                 <td>${issue.description!}</td>
                                 <td>${issue.reporter.username!}</td>
                                 <td><#if issue.executor??>${issue.executor.username}<#else>no executor</#if></td>
+                                <td>${issue.creationDate}</td>
                                 <td>${issue.status!}</td>
                                 <td>${issue.type!}</td>
                                 <td><#if issue.hasSubIssues><a href="/"><#else>no subissue</#if></td>

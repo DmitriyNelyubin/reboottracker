@@ -23,7 +23,7 @@
                         <div>
                             <label>
                                 <tr>
-                                    <#if isSprint><td><input name="sprintIssues" type="checkbox" value="${issue.id}" ></td></#if>
+                                    <#if isSprint><td><input name="backlog" type="checkbox" value="${issue.id}" ></td></#if>
                                     <td>${issue.id!}</td>
                                     <td>${issue.name!}</td>
                                     <td>${issue.description!}</td>
@@ -40,4 +40,57 @@
                     </#if>
         </#list>
         </tbody>
+</#macro>
+
+<#macro issueFilter path>
+    <tbody>
+    <form method="get" action="${path}" class="form-inline">
+    <tr>
+        <td>Filter</td>
+        <td><input type="text" name="filterName" class="form-control"></td>
+        <td><input type="text" name="filterDescription" class="form-control"></td>
+        <td>
+            <select name="filterReporter" class="form-control">
+                <option selected></option>
+                <#list users as user>
+                    <option value="${user.id?ifExists}">${user.username}</option>
+                </#list>
+            </select>
+        </td>
+        <td><select name="filterExecutor" class="form-control">
+                <option selected></option>
+                <#list developers as developer>
+                    <option value="${developer.id?ifExists}">${developer.username}</option>
+                </#list>
+            </select>
+        <td>
+            <input name="filterDate" class="form-control" type="date"/>
+        </td>
+        <td>
+            <select name="filterStatus" class="form-control">
+                <option selected></option>
+                <#list statuses as status>
+                    <option value="${status?ifExists}">${status}</option>
+                </#list>
+            </select>
+        </td>
+        <td>
+            <select name="filterType" class="form-control">
+                <option selected></option>
+                    <#list types as type>
+                        <option value="${type?ifExists}">${type}</option>
+                    </#list>
+            </select>
+        </td>
+        <td>
+            <select name="filterSubIssues" class="form-control">
+                <option selected></option>
+                    <option value="true">true</option>
+                    <option value="false">false</option>
+            </select>
+        </td>
+        <th><button type="submit" class="btn btn-primary">Search</button></th>
+    </tr>
+    </form>
+    </tbody>
 </#macro>

@@ -44,8 +44,8 @@
         </p>
         <div class="collapse multi-collapse" id="issues">
             <table class="table">
-                <@i.issueTHead />
-                <@i.issueTBody />
+                <@i.issueTHead false/>
+                <@i.issueTBody false/>
             </table>
         </div>
     <#else>
