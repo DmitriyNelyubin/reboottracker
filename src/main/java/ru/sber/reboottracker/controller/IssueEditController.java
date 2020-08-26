@@ -16,6 +16,7 @@ import ru.sber.reboottracker.service.IssueService;
 import ru.sber.reboottracker.service.UserService;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -72,9 +73,25 @@ public class IssueEditController {
     public String issueProfile(
             @AuthenticationPrincipal User user,
             @PathVariable Issue issue,
+            @RequestParam(required = false) String filterName,
+            @RequestParam(required = false) String filterDescription,
+            @RequestParam(name = "filterReporter", required = false) User reporter,
+            @RequestParam(name = "filterExecutor", required = false) User executor,
+            @RequestParam(name = "filterDate", required = false) String creationDate,
+            @RequestParam(name = "filterStatus", required = false) IssueStatus status,
+            @RequestParam(name = "filterType", required = false) IssueType type,
+            @RequestParam(name = "filterSubIssues", required = false) String hasSubIssue,
             Model model){
+        List<Issue> issues = issue.getSubIssues();
+        issues = issueService.issueFilter(issues, filterName, filterDescription, reporter, executor, creationDate, status, type, hasSubIssue);
         model.addAttribute("issue", issue);
-        model.addAttribute("subIssues", issue.getSubIssues());
+        model.addAttribute("subIssues", issues);
+        model.addAttribute("user", user);
+        model.addAttribute("project", issue.getProject());
+        model.addAttribute("developers", userService.findDevelopersByProject(issue.getProject()));
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("statuses", IssueStatus.values());
+        model.addAttribute("types" , IssueType.values());
 
         return "/issueProfile";
     }

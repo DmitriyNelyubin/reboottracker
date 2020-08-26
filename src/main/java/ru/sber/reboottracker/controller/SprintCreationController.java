@@ -75,7 +75,7 @@ public class SprintCreationController {
             Model model){
         model.addAttribute("project", project);
         model.addAttribute("backlog", issueService.getProjectBacklog(project));
-        model.addAttribute("currentDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date())).toString();
+        model.addAttribute("currentDate", new SimpleDateFormat("yyyy-mm-dd").format(new Date())).toString();
         model.addAttribute("sprints", sprintService.getProjectSprints(project));
         return "/sprint";
     }

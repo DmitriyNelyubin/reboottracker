@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -33,13 +34,13 @@ public class Issue {
     @NotNull(message = "Set issue type")
     @Enumerated(EnumType.STRING)
     private IssueType type;
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
     private Date creationDate = new Date();
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
     private Date closeDate;
     @OneToMany(targetEntity = Issue.class)
     @JoinColumn(name = "issue_id")
-    private Set<Issue> subIssues;
+    private List<Issue> subIssues;
     private boolean hasSubIssues;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sub_issues_id")
@@ -60,6 +61,7 @@ public class Issue {
         this.type = type;
         this.project = project;
     }
+
 
     public Issue getSuperIssue() {
         return superIssue;
@@ -140,11 +142,11 @@ public class Issue {
         this.closeDate = closeDate;
     }
 
-    public Set<Issue> getSubIssues() {
+    public List<Issue> getSubIssues() {
         return subIssues;
     }
 
-    public void setSubIssues(Set<Issue> subIssues) {
+    public void setSubIssues(List<Issue> subIssues) {
         this.subIssues = subIssues;
     }
 

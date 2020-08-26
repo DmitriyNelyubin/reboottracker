@@ -10,6 +10,7 @@ import ru.sber.reboottracker.domain.project.Project;
 import ru.sber.reboottracker.domain.user.User;
 import ru.sber.reboottracker.repos.IssueRepo;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -108,7 +109,8 @@ public class IssueService {
         }
 
         if(issues != null && creationDate != null && !creationDate.equals("")) {
-            issues.removeIf(issue -> !issue.getCreationDate().equals(parseDate(creationDate)));
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            issues.removeIf(issue -> !df.format(issue.getCreationDate()).contains(creationDate));
         }
 
         if(issues != null && status != null) {

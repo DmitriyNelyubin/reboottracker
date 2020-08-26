@@ -7,8 +7,7 @@
         </p>
             <table class="table">
                 <@i.issueTHead false/>
-                <@i.issueFilter "/issue/${project.id}"/>
-
+                <@i.issueFilter "/issue/${project.id}" false/>
                 <@i.issueTBody false/>
             </table>
     <#if !backlog?has_content>

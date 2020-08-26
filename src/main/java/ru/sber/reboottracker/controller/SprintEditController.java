@@ -6,11 +6,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.reboottracker.domain.issues.Issue;
+import ru.sber.reboottracker.domain.issues.IssueStatus;
+import ru.sber.reboottracker.domain.issues.IssueType;
 import ru.sber.reboottracker.domain.issues.Sprint;
 import ru.sber.reboottracker.domain.project.Project;
 import ru.sber.reboottracker.domain.user.User;
 import ru.sber.reboottracker.service.IssueService;
 import ru.sber.reboottracker.service.SprintService;
+import ru.sber.reboottracker.service.UserService;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -25,6 +28,9 @@ public class SprintEditController {
 
     @Autowired
     private IssueService issueService;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/sprintEdit/")
     public String updateSprint(
@@ -77,9 +83,24 @@ public class SprintEditController {
     public String sprintProfile(
             @AuthenticationPrincipal User user,
             @PathVariable Sprint sprint,
+            @RequestParam(required = false) String filterName,
+            @RequestParam(required = false) String filterDescription,
+            @RequestParam(name = "filterReporter", required = false) User reporter,
+            @RequestParam(name = "filterExecutor", required = false) User executor,
+            @RequestParam(name = "filterDate", required = false) String creationDate,
+            @RequestParam(name = "filterStatus", required = false) IssueStatus status,
+            @RequestParam(name = "filterType", required = false) IssueType type,
+            @RequestParam(name = "filterSubIssues", required = false) String hasSubIssue,
             Model model){
+        List<Issue> issues = issueService.getProjectBacklog(sprint.getProject());
+        issues = issueService.issueFilter(issues, filterName, filterDescription, reporter, executor, creationDate, status, type, hasSubIssue);
+        model.addAttribute("developers", userService.findDevelopersByProject(sprint.getProject()));
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("statuses", IssueStatus.values());
+        model.addAttribute("types" , IssueType.values());
+        model.addAttribute("sprints", sprintService.getProjectSprints(sprint.getProject()));
         model.addAttribute("sprint", sprint);
-        model.addAttribute("backlog", sprintService.getSprintIssues(sprint));
+        model.addAttribute("backlog", issues);
 
         return "/sprintProfile";
     }

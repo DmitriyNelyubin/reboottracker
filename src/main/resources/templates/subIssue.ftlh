@@ -2,7 +2,6 @@
 <#include "parts/security.ftlh">
 
 <@c.page>
-    <h2 xmlns="http://www.w3.org/1999/html">Add sub issue</h2>
     <form action="/subIssue/" method="post">
         <input type="hidden" value="${_csrf.token}" name="_csrf">
         <input type="hidden" name="superIssue" value="${issue.id}">

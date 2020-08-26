@@ -47,10 +47,21 @@
             <p><b>Sub issues: </b>
                 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#subIssues" aria-expanded="false" aria-controls="subIssues">Sub issues</button>
             </p>
-                <div class="collapse" id="subIssues">
+                <div class="collapse show" id="subIssues">
                                 <table class="table">
-                                    <@i.issueTHead false/>
+                                    <thead class="thead-light">
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Reporter</th>
+                                    <th scope="col">Executor</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col"></th>
+                                    </thead>
                                     <tbody>
+                                    <@i.issueFilter "/issueProfile/${issue.id}" true/>
                                     <#list  subIssues as subIssue>
                                             <tr>
                                                 <td>${subIssue.id!}</td>
@@ -58,6 +69,7 @@
                                                 <td>${subIssue.description!}</td>
                                                 <td>${subIssue.reporter.username!}</td>
                                                 <td><#if subIssue.executor??>${subIssue.executor.username}<#else>no executor</#if></td>
+                                                <td>${subIssue.creationDate!}</td>
                                                 <td>${subIssue.status!}</td>
                                                 <td>${subIssue.type!}</td>
                                                 <td><a href="/issueProfile/${subIssue.id}">more</a></td>

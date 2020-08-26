@@ -42,7 +42,7 @@
         </tbody>
 </#macro>
 
-<#macro issueFilter path>
+<#macro issueFilter path isSubIssue>
     <tbody>
     <form method="get" action="${path}" class="form-inline">
     <tr>
@@ -52,9 +52,11 @@
         <td>
             <select name="filterReporter" class="form-control">
                 <option selected></option>
+                <#if users?hasContent>
                 <#list users as user>
                     <option value="${user.id?ifExists}">${user.username}</option>
                 </#list>
+                </#if>
             </select>
         </td>
         <td><select name="filterExecutor" class="form-control">
@@ -64,7 +66,7 @@
                 </#list>
             </select>
         <td>
-            <input name="filterDate" class="form-control" type="date"/>
+            <input name="filterDate" class="form-control" data-date-format="yyyy-mm-dd" type="date"/>
         </td>
         <td>
             <select name="filterStatus" class="form-control">
@@ -82,6 +84,7 @@
                     </#list>
             </select>
         </td>
+        <#if !isSubIssue>
         <td>
             <select name="filterSubIssues" class="form-control">
                 <option selected></option>
@@ -89,6 +92,7 @@
                     <option value="false">false</option>
             </select>
         </td>
+        </#if>
         <th><button type="submit" class="btn btn-primary">Search</button></th>
     </tr>
     </form>

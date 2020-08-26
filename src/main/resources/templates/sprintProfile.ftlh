@@ -24,9 +24,10 @@
     <#if backlog?has_content>
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#issues" aria-expanded="false" aria-controls="issues">Issues</button>
         </p>
-        <div class="collapse multi-collapse" id="issues">
+        <div class="collapse show" id="issues">
             <table class="table">
                 <@i.issueTHead false/>
+                <@i.issueFilter "/sprintProfile/${sprint.id}" false/>
                 <@i.issueTBody false/>
             </table>
         </div>

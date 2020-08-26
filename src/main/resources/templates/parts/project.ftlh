@@ -3,7 +3,7 @@
         <label class="col-sm-2 col-form-label">Project Name </label>
         <div class="col-sm-6">
             <input type="hidden" value="${_csrf.token}" name="_csrf">
-            <input type="text" name="name" <#if project??>value="${project.name!}"</#if>
+            <input type="text" name="name" <#if project??>value="${project.name}"</#if>
                    class="form-control ${(nameError??)?string('is-invalid', '')}"
                    placeholder="Project name" />
             <#if nameError??>

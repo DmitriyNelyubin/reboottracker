@@ -77,14 +77,14 @@ public class IssueController {
     public String issueList(
             @AuthenticationPrincipal User user,
             @PathVariable Project project,
-            @RequestParam String filterName,
-            @RequestParam String filterDescription,
-            @RequestParam("filterReporter") User reporter,
-            @RequestParam("filterExecutor") User executor,
-            @RequestParam("filterDate") String creationDate,
-            @RequestParam("filterStatus") IssueStatus status,
-            @RequestParam("filterType") IssueType type,
-            @RequestParam("filterSubIssues") String hasSubIssue,
+            @RequestParam(required = false) String filterName,
+            @RequestParam(required = false) String filterDescription,
+            @RequestParam(name = "filterReporter", required = false) User reporter,
+            @RequestParam(name = "filterExecutor", required = false) User executor,
+            @RequestParam(name = "filterDate", required = false) String creationDate,
+            @RequestParam(name = "filterStatus", required = false) IssueStatus status,
+            @RequestParam(name = "filterType", required = false) IssueType type,
+            @RequestParam(name = "filterSubIssues", required = false) String hasSubIssue,
             Model model){
         List<Issue> issues = issueService.getProjectBacklog(project);
         issues = issueService.issueFilter(issues, filterName, filterDescription, reporter, executor, creationDate, status, type, hasSubIssue);
@@ -96,7 +96,6 @@ public class IssueController {
         model.addAttribute("statuses", IssueStatus.values());
         model.addAttribute("types" , IssueType.values());
         model.addAttribute("sprints", sprintService.getProjectSprints(project));
-        model.addAttribute("currentDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         return "/issue";
     }
 }
