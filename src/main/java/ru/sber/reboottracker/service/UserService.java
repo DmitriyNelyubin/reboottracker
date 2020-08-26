@@ -62,7 +62,7 @@ public class UserService implements UserDetailsService {
             String message = String.format(
                     "Hello, %s \n" +
                             "You input this Email in RebootTracker.\n" +
-                            "To confirm it go to next link: http://localhost:8080/activate/%s\n" +
+                            "To confirm it go to next link: https://reboottracker.herokuapp.com/activate/%s\n" +
                             "If you need special role create issue in \"Сбердруг\".",
                     user.getUsername(),
                     user.getActivationCode()
